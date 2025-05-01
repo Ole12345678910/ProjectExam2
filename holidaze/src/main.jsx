@@ -8,7 +8,7 @@ import Footer from './components/Footer';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter> {/* Sørg for at BrowserRouter er riktig satt opp */}
+    <BrowserRouter> 
       <Header />
       <App />
       <Footer/>

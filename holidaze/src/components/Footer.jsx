@@ -1,4 +1,3 @@
-// components/Header.jsx
 import { Link } from 'react-router-dom';
 
 function Footer() {

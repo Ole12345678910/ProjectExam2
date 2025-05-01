@@ -8,9 +8,13 @@ function Header() {
         <h1 className="text-xl font-bold">
           <Link to="/">Holidaze</Link>
         </h1>
+        <h2>
+            <Link to="/Venues">Venue</Link>
+        </h2>
         <nav className="space-x-4">
           <Link to="/" className="hover:underline">Home</Link>
           <Link to="/bookings" className="hover:underline">Bookings</Link>
+          <Link to="/Profiles">Profiles</Link>
           {/* Add more links as needed */}
         </nav>
       </div>
