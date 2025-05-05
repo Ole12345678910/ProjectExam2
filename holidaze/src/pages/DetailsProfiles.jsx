@@ -1,40 +1,43 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; // To get dynamic params
-import { getSingleProfile } from '../components/api'; // Import the function for getting single profile
+import { useParams } from 'react-router-dom'; 
+import { getProfileWithDetails } from '../components/api'; 
+import { Link } from 'react-router-dom';
 
 
 const DetailProfile = () => {
-  const { profileName } = useParams(); // Get the profile name from the URL
-  const [profile, setProfile] = useState(null); // Store the profile data
-  const [error, setError] = useState(null); // Store error messages
-  const [loading, setLoading] = useState(true); // Loading state
+  const { profileName } = useParams(); 
+  const [profile, setProfile] = useState(null); 
+  const [error, setError] = useState(null); 
+  const [loading, setLoading] = useState(true); 
 
-  // Function to fetch a single profile
+
   const fetchProfileDetails = async () => {
     try {
-      const profileData = await getSingleProfile(profileName); // Fetch profile using the name
-      setProfile(profileData.data); // Set profile data
-    } catch {
-      setError('Failed to fetch profile details'); // Set error if request fails
+      const token = localStorage.getItem("token"); 
+      const data = await getProfileWithDetails(profileName, token);
+      setProfile(data);
+    } catch (err) {
+      setError("Failed to fetch profile details");
     } finally {
-      setLoading(false); // Set loading to false after the fetch is done
+      setLoading(false);
     }
   };
+  
 
   useEffect(() => {
-    fetchProfileDetails(); // Fetch profile details on initial load
-  }, [profileName]); // Re-fetch if the profileName changes
+    fetchProfileDetails(); 
+  }, [profileName]); 
 
   if (loading) {
-    return <p>Loading...</p>; // Show loading while fetching data
+    return <p>Loading...</p>;
   }
 
   if (error) {
-    return <p className="text-red-500">{error}</p>; // Show error if any
+    return <p className="text-red-500">{error}</p>; 
   }
 
   if (!profile) {
-    return <p>Profile not found</p>; // If no profile is found
+    return <p>Profile not found</p>; 
   }
 
   return (
@@ -68,8 +71,38 @@ const DetailProfile = () => {
 
         <p>Venue Manager: {profile.venueManager ? 'Yes' : 'No'}</p>
         <p>Venues: {profile._count.venues}</p>
-        <p>Bookings: {profile._count.bookings}</p>
       </div>
+      {profile.bookings && profile.bookings.length > 0 ? (
+        <div className="mt-6">
+            <h3 className="text-xl font-semibold mb-2">Bookings</h3>
+            <ul className="space-y-4">
+            {profile.bookings.map((booking) => (
+                <li key={booking.id} className="border p-4 rounded shadow">
+                <p>
+                    <strong>Venue:</strong>{' '}
+                    {booking.venue ? (
+                    <Link
+                        to={`/venues/${booking.venue.id}`}
+                        className="text-blue-500 hover:underline"
+                    >
+                        {booking.venue.name}
+                    </Link>
+                    ) : (
+                    'Unknown'
+                    )}
+                </p>
+                <p><strong>Guests:</strong> {booking.guests}</p>
+                <p><strong>From:</strong> {new Date(booking.dateFrom).toLocaleDateString()}</p>
+                <p><strong>To:</strong> {new Date(booking.dateTo).toLocaleDateString()}</p>
+                </li>
+            ))}
+            </ul>
+
+        </div>
+        ) : (
+        <p className="mt-4">No bookings found.</p>
+        )}
+
     </div>
   );
 };

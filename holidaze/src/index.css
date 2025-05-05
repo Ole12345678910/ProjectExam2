@@ -3,3 +3,21 @@
 @tailwind utilities;
 
 
+
+
+.highlighted-booked {
+  background-color: #ccc !important;
+  color: #888 !important;
+}
+
+
+.react-calendar__tile--range {
+  background: #a0e7e5;
+  color: black;
+}
+
+.react-calendar__tile--rangeStart,
+.react-calendar__tile--rangeEnd {
+  background: #00b4d8;
+  color: white;
+}

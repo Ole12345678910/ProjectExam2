@@ -42,7 +42,6 @@ function DetailBooking() {
       <p>Date From: {booking.dateFrom}</p>
       <p>Date To: {booking.dateTo}</p>
       <p>Guests: {booking.guests}</p>
-      {/* Du kan vise mer detaljer her */}
     </div>
   );
 }
