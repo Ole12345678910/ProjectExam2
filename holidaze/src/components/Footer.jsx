@@ -1,4 +1,3 @@
-// components/Header.jsx
 import { Link } from 'react-router-dom';
 
 function Footer() {
@@ -10,8 +9,6 @@ function Footer() {
         </h1>
         <nav className="space-x-4">
           <Link to="/" className="hover:underline">Home</Link>
-          <Link to="/bookings" className="hover:underline">Bookings</Link>
-          {/* Add more links as needed */}
         </nav>
       </div>
     </header>

@@ -1,49 +1,24 @@
-import { useEffect, useState } from 'react';
-import { getAllBookings, createBooking, updateBooking, deleteBooking } from './components/api.js';
+import { Routes, Route } from 'react-router-dom';
+import DetailBooking from './pages/DetailBooking';
+import Venues from './pages/Venues';
+import DetailVenues from './pages/DetailsVenues';
+import DetailProfile from './pages/DetailsProfiles';
+import LoginForm from './pages/Login';
+import RegisterUser from './pages/Register';
+import Dashboard from './pages/Dashboard';
 
-console.log(updateBooking);
-
-const Bookings = () => {
-  const [bookings, setBookings] = useState([]);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    getAllBookings()
-      .then(data => setBookings(data.data))
-      .catch(err => setError(err.message));
-  }, []);
-
-  // Example: creating a booking
-  const handleCreate = async () => {
-    const newBooking = {
-      dateFrom: new Date().toISOString(),
-      dateTo: new Date(Date.now() + 86400000).toISOString(),
-      guests: 2,
-      venueId: 'some-venue-id',
-    };
-    try {
-      const result = await createBooking(newBooking);
-      setBookings([...bookings, result.data]);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
+function App() {
   return (
-    <div>
-      <h2>Bookings</h2>
-      {error && <p>{error}</p>}
-      <button onClick={handleCreate}>Create Booking</button>
-      <ul>
-        {bookings.map(b => (
-          <li key={b.id}>
-            {b.dateFrom} - {b.dateTo}
-            <button onClick={() => deleteBooking(b.id)}>❌</button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Routes>
+      <Route path="/" element={<Venues />} />
+      <Route path="/details/:id" element={<DetailBooking />} />
+      <Route path="Venues/:id" element={<DetailVenues />} />
+      <Route path="/Profile/:profileName" element={<DetailProfile />} />
+      <Route path="/Login" element={<LoginForm />} />
+      <Route path="/Register" element={< RegisterUser/>} />
+      <Route path="/dashboard" element={< Dashboard/>} />
+    </Routes>
   );
-};
+}
 
-export default Bookings;
+export default App;
