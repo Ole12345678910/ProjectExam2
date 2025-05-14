@@ -32,25 +32,26 @@ function Header() {
   }
 
   return (
-    <header className="bg-blue-600 text-white p-4 shadow-md">
-      <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-bold">
-          <Link to="/">Holidaze</Link>
-        </h1>
+    <header className="p-4 shadow-md">
+      <div className="container flex justify-between items-center">
+        <div className="text-xl font-montserrat font-semibold">
+          <Link className="flex items-center" to="/">SnapBook
+            <div className="h-[1rem] w-[1rem] bg-yellowMain border-2 border-black rounded-full ml-1"></div>
+          </Link>
+        </div>
+        <input className="border-[0.5px] border-blackMain focus:outline-none px-3 py-0.5 focus:ring-1 focus:ring-black rounded-2xl placeholder:text-xs" placeholder="Search for Venues..." type="text" name="searchbar" id="" />
         <nav className="space-x-4">
-          <Link to="/" className="hover:underline">Home</Link>
-
           {!isLoggedIn ? (
-            <Link to="/login" className="hover:underline">Login</Link>
+            <Link to="/login" className="bg-yellowMain">Log in</Link>
           ) : (
             <>
-              <Link to={`/profile/${userName}`} className="hover:underline">My Profile</Link>
               {isVenueManager && (
                 <>
                   <Link to="/dashboard" className="hover:underline">Dashboard</Link>
                 </>
               )}
-              <button onClick={handleLogout} className="hover:underline">Logout</button>
+              <Link to={`/profile/${userName}`} className="hover:underline">Profile</Link>
+              <button onClick={handleLogout} className="hover:underline bg-yellowMain">Log out</button>
             </>
           )}
         </nav>

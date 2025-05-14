@@ -3,7 +3,9 @@
 @tailwind utilities;
 
 
-
+body {
+  @apply font-inter text-blackMain;
+}
 
 .highlighted-booked {
   background-color: #f8d7da !important; /* Redish - unavailable */
