@@ -10,7 +10,7 @@ export default function Dashboard() {
   const user = JSON.parse(localStorage.getItem("user"));
   const username = user?.name;
 
-  const { profile, venues, bookings, error, refresh, setVenues } = useProfile(token, username);
+  const { profile, venues, error, refresh, setVenues } = useProfile(token, username);
 
   const [formData, setFormData] = useState(emptyVenueForm);
   const [editFormData, setEditFormData] = useState(emptyVenueForm);

@@ -1,133 +1,105 @@
 const BASE_URL = 'https://v2.api.noroff.dev/holidaze';
-
-
+const AUTH_URL = "https://v2.api.noroff.dev/auth/";
 const apiKey = import.meta.env.VITE_API_KEY;
-const TOKEN = import.meta.env.VITE_BEARER_TOKEN;
 
-const headers = {
-  'Content-Type': 'application/json',
-  'Authorization': `Bearer ${TOKEN}`,
-  'X-Noroff-API-Key': apiKey,
+
+// Reusable function to get headers
+const getHeaders = () => {
+  const token = localStorage.getItem('token');
+  return {
+    'Content-Type': 'application/json',
+    ...(token && { 'Authorization': `Bearer ${token}` }),
+    'X-Noroff-API-Key': apiKey,
+  };
 };
+// Reusable function to handle fetch requests
+const fetchRequest = async (url, method = 'GET', body = null) => {
+  const options = {
+    method,
+    headers: getHeaders(),
+  };
+
+  if (body) {
+    options.body = JSON.stringify(body);
+  }
+
+  const res = await fetch(url, options);
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    console.error("Error Response:", errorData);
+    throw new Error(errorData.errors?.[0]?.message || `Request failed: ${res.statusText}`);
+  }
+
+  // ✅ Don't parse if status is 204 No Content
+  if (res.status === 204) return;
+
+  return res.json();
+};
+
+// ✅ Update Profile
+export const updateProfile = (profileName, data) => {
+  return put(`${BASE_URL}/profiles/${profileName}`, data);
+};
+
+
+// Generic function to make GET requests
+const get = (url) => fetchRequest(url, 'GET');
+
+// Generic function to make POST requests
+const post = (url, body) => fetchRequest(url, 'POST', body);
+
+// Generic function to make PUT requests
+const put = (url, body) => fetchRequest(url, 'PUT', body);
+
+// Generic function to make DELETE requests
+const del = (url) => fetchRequest(url, 'DELETE');
 
 // ✅ Get All Bookings
-export async function getAllBookings() {
-  const res = await fetch(`${BASE_URL}/bookings`, { headers });
-  if (!res.ok) throw new Error('Failed to fetch bookings');
-  return res.json();
-}
+export const getAllBookings = () => get(`${BASE_URL}/bookings`);
 
 // ✅ Get Single Booking
-export async function getBooking(id) {
-  const res = await fetch(`${BASE_URL}/bookings/${id}`, { headers });
-  if (!res.ok) throw new Error('Failed to fetch booking');
-  return res.json();
-}
-
-
+export const getBooking = (id) => get(`${BASE_URL}/bookings/${id}`);
 
 // ✅ Update Booking
-export async function updateBooking(id, data) {
-  const res = await fetch(`${BASE_URL}/bookings/${id}`, {
-    method: 'PUT',
-    headers,
-    body: JSON.stringify(data),
-  });
-  if (!res.ok) throw new Error('Failed to update booking');
-  return res.json();
-}
+export const updateBooking = (id, data) => put(`${BASE_URL}/bookings/${id}`, data);
 
 // ✅ Delete Booking
-export async function deleteBooking(id) {
-  const res = await fetch(`${BASE_URL}/bookings/${id}`, {
-    method: 'DELETE',
-    headers,
-  });
-  if (!res.ok) throw new Error('Failed to delete booking');
-  return true;
-}
-
+export const deleteBooking = (id) => del(`${BASE_URL}/bookings/${id}`);
 
 // ✅ Get All Venues
-export async function getAllVenues() {
-  const res = await fetch(`${BASE_URL}/venues?_bookings=true`, { headers });
-  if (!res.ok) throw new Error('Failed to fetch venues');
-  return res.json();
-}
+export const getAllVenues = () => get(`${BASE_URL}/venues?_bookings=true`);
 
-
-export async function getVenueById(id) {
-  const res = await fetch(`${BASE_URL}/venues/${id}?_bookings=true&_owner=true`, {
-    headers,
-  });
-  if (!res.ok) throw new Error('Failed to fetch venue by ID');
-  return res.json();
-}
-
-
+// ✅ Get Single Venue
+export const getVenueById = (id) => get(`${BASE_URL}/venues/${id}?_bookings=true&_owner=true`);
 
 // ✅ Get All Profiles
-export async function getAllProfiles() {
-  const res = await fetch(`${BASE_URL}/profiles`, { headers });
-  if (!res.ok) throw new Error('Failed to fetch profiles');
-  return res.json();
-}
-
+export const getAllProfiles = () => get(`${BASE_URL}/profiles`);
 
 // ✅ Get Single Profile
-export async function getSingleProfile(profileName) {
-  const res = await fetch(`${BASE_URL}/profiles/${profileName}`, { headers });
-  if (!res.ok) throw new Error('Failed to fetch profile');
-  return res.json(); // Return the JSON data
-}
-
+export const getSingleProfile = (profileName) => get(`${BASE_URL}/profiles/${profileName}`);
 
 // ✅ Search All Profiles
-export const searchProfiles = (query) => {
-  return fetch(`${BASE_URL}/profiles/search?q=${query}`, { headers })
-    .then((response) => {
-      if (response.ok && response.headers.get('Content-Type').includes('application/json')) {
-        return response.json(); // Parse as JSON
-      } else {
-        return response.text().then((text) => {
-          console.error('Unexpected response format:', text);
-          throw new Error('Unexpected response format');
-        });
-      }
-    })
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => {
-      console.error('Request failed:', err);
-      throw new Error(err.message);
-    });
-};
+export const searchProfiles = (query) => get(`${BASE_URL}/profiles/search?q=${query}`);
 
+// ✅ Create Booking
+export const createBooking = (bookingData) =>
+  fetchRequest(`${BASE_URL}/bookings`, 'POST', bookingData);
 
-// ✅ Get venues with bookings
-export async function getVenueWithBookings(id) {
-  const res = await fetch(`${BASE_URL}/holidaze/venues/${id}?_bookings=true`, {
-    headers,
-  });
-  if (!res.ok) throw new Error('Failed to fetch venue with bookings');
-  return res.json();
-}
+// ✅ Create Venue
+export const createVenue = (venueData) => post(`${BASE_URL}/venues`, venueData);
 
+// ✅ Delete Venue
+export const deleteVenue = (venueId) => del(`${BASE_URL}/venues/${venueId}`);
 
-export async function getSingleVenue(id) {
-  const res = await fetch(`${BASE_URL}/holidaze/venues/${id}?_bookings=true&_owner=true`, {
-    headers,
-  });
-  if (!res.ok) throw new Error('Failed to fetch venue');
-  return res.json();
-}
+// ✅ Update Venue
+export const updateVenue = (venueId, updatedData) => put(`${BASE_URL}/venues/${venueId}`, updatedData);
 
-
-export async function loginUser(email, password) {
+// ✅ Login User
+export const loginUser = async (email, password) => {
   const loginData = { email, password };
-
-  const response = await fetch(`https://v2.api.noroff.dev/auth/login`, {
+  
+  const response = await fetch(`${AUTH_URL}login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(loginData),
@@ -135,126 +107,28 @@ export async function loginUser(email, password) {
 
   if (!response.ok) {
     const errorData = await response.json();
-    if (response.status === 401) {
-      throw new Error("Invalid email or password.");
-    }
     throw new Error(errorData.message || "Login failed.");
   }
 
   const responseData = await response.json();
-  console.log("Login response:", responseData);
+  localStorage.setItem("token", responseData.data.accessToken);
+  localStorage.setItem("user", JSON.stringify(responseData.data));
 
-
-  localStorage.setItem("token", responseData.data.accessToken);  
-  localStorage.setItem("user", JSON.stringify(responseData.data)); 
-
-  return responseData.data; 
-}
+  return responseData.data;
+};
 
 
 
-export async function createBooking(bookingData) {
-  const token = localStorage.getItem('token'); 
+export const getProfileWithDetails = async (username) => {
+  const response = await get(`${BASE_URL}/profiles/${username}?_venues=true&_bookings=true`);
+  return response.data;
+};
 
 
-  console.log("Token retrieved:", token);
 
-  if (!token) {
-    console.error("No token found. Please log in.");
-    throw new Error("No token found. Please log in.");
-  }
-
-
-  console.log("Sending booking with token:", token);
-  console.log("Booking Data:", bookingData);
-
+export async function registerUser(userData) {
   try {
-    const response = await fetch('https://v2.api.noroff.dev/holidaze/bookings', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,  
-        'X-Noroff-API-Key': apiKey,
-      },
-      body: JSON.stringify(bookingData),  
-    });
-
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Error creating booking:", errorData);  
-      throw new Error(errorData.errors?.[0]?.message || "Failed to create booking");  
-    }
-
-    const responseData = await response.json();
-    console.log("Booking created successfully:", responseData);
-    return responseData;  
-
-  } catch (error) {
-  
-    console.error("Error in API call:", error);
-    throw new Error("API call failed: " + error.message);
-  }
-}
-
-
-
-
-
-
-
-
-
-
-export async function getProfileWithDetails(username, token) {
-  const res = await fetch(
-    `${BASE_URL}/profiles/${username}?_venues=true&_bookings=true`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,  
-        'X-Noroff-API-Key': apiKey,
-      },
-    }
-  );
-
-  if (!res.ok) {
-    throw new Error(`Failed to fetch profile: ${res.statusText}`);
-  }
-
-  const { data } = await res.json();
-  return data;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export const registerUser = async (userData) => {
-  try {
-    const response = await fetch(`https://v2.api.noroff.dev/auth/register`, {  
+    const response = await fetch(`${AUTH_URL}register`, {  
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -271,90 +145,4 @@ export const registerUser = async (userData) => {
   } catch (error) {
     throw new Error(error.message || 'An error occurred while registering');
   }
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export async function createVenue(venueData, token) {
-  const response = await fetch(`${BASE_URL}/venues`, {
-    method: "POST",
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,  
-      'X-Noroff-API-Key': apiKey,
-    },
-    body: JSON.stringify(venueData),
-  });
-
-  if (!response.ok) {
-    const err = await response.json();
-    throw new Error(err.errors?.[0]?.message || "Failed to create venue");
-  }
-
-  const { data } = await response.json();
-  return data;
-}
-
-
-
-
-
-
-
-
-
-
-
-export async function deleteVenue(venueId, token) {
-  const response = await fetch(`${BASE_URL}/venues/${venueId}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      'Authorization': `Bearer ${token}`,
-      'X-Noroff-API-Key': apiKey,
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to delete venue.");
-  }
-
-  return response;
-}
-
-
-
-
-
-
-
-export async function updateVenue(venueId, updatedData, token) {
-  const response = await fetch(`${BASE_URL}/venues/${venueId}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      'Authorization': `Bearer ${token}`,
-      'X-Noroff-API-Key': apiKey,
-    },
-    body: JSON.stringify(updatedData),
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to update venue.");
-  }
-
-  return await response.json();
 }

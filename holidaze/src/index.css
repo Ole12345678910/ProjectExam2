@@ -6,18 +6,17 @@
 
 
 .highlighted-booked {
-  background-color: #ccc !important;
-  color: #888 !important;
+  background-color: #f8d7da !important; /* Redish - unavailable */
 }
-
-
-.react-calendar__tile--range {
-  background: #a0e7e5;
-  color: black;
+.highlighted-mine {
+  background-color: #d1ecf1 !important; /* Light blue - your booking */
 }
-
-.react-calendar__tile--rangeStart,
-.react-calendar__tile--rangeEnd {
-  background: #00b4d8;
-  color: white;
+.highlighted-editing {
+  background-color: #ffcc80 !important; /* Orange - editing mode */
+}
+.highlighted-selected {
+  background-color: #90ee90 !important; /* Green - new selection */
+}
+.highlighted-start {
+  background-color: #ffdeac !important; /* Orange-ish - starting date */
 }
