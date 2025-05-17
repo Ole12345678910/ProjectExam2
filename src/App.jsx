@@ -6,11 +6,12 @@ import DetailProfile from './pages/DetailsProfiles';
 import LoginForm from './pages/Login';
 import RegisterUser from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import HomePage from './pages/Home';
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Venues />} />
+      <Route path="/" element={<HomePage />} />
       <Route path="/details/:id" element={<DetailBooking />} />
       <Route path="Venues/:id" element={<DetailVenues />} />
       <Route path="/Profile/:profileName" element={<DetailProfile />} />

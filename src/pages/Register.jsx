@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { IoMdCloseCircleOutline } from 'react-icons/io';
 import { registerUser } from '../components/api';
 
 function Register() {
@@ -38,7 +39,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(''); // Reset error state on form submission
+    setError('');
 
     const registerData = {
       name: formData.name,
@@ -55,8 +56,7 @@ function Register() {
     };
 
     try {
-      const data = await registerUser(registerData); 
-
+      await registerUser(registerData);
       alert('Registration successful!');
       setFormData({
         name: '',
@@ -68,144 +68,110 @@ function Register() {
         bannerUrl: '',
         bannerAlt: '',
         venueManager: false,
-      }); 
-
-      navigate('/login'); 
+      });
+      navigate('/login');
     } catch (err) {
-      setError(err.message || 'Registration failed'); 
+      setError(err.message || 'Registration failed');
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold">Register</h2>
-      {error && <p className="text-red-500">{error}</p>}
-      <form onSubmit={handleSubmit} className="space-y-4 mt-4">
-        {/* Name */}
-        <div>
-          <label className="block font-medium">Name</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            required
-          />
+    <form
+      onSubmit={handleSubmit}
+      className="flex justify-center items-center min-h-screen bg-greySecond"
+    >
+      <div className="w-full max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-md my-6">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-4">
+          <IoMdCloseCircleOutline
+              size={24}
+              className="cursor-pointer"
+              onClick={() => navigate('/')}
+            />
+
+          <div>
+            <Link className="py-2 font-medium px-5 text-sm" to="/login">
+              Log in
+            </Link>
+            <Link className="auth-button" to="/register">
+              Sign up
+            </Link>
+          </div>
         </div>
 
-        {/* Email */}
-        <div>
-          <label className="block font-medium">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            required
-          />
+        {/* Logo */}
+        <div className="text-4xl font-montserrat font-semibold mb-2 text-center">
+          <p className="flex items-center justify-center">
+            SnapBook
+            <div className="h-8 w-8 bg-yellowMain border-2 border-blackMain rounded-full ml-2" />
+          </p>
         </div>
 
-        {/* Password */}
-        <div>
-          <label className="block font-medium">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            required
-          />
-        </div>
+        <p className="text-lg text-gray-second mb-4 text-center">
+          Create your account and start booking.
+        </p>
 
-        {/* Bio (Optional) */}
-        <div>
-          <label className="block font-medium">Bio</label>
-          <textarea
-            name="bio"
-            value={formData.bio}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-md"
-          />
-        </div>
+        {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
 
-        {/* Avatar URL (Optional) */}
-        <div>
-          <label className="block font-medium">Avatar URL</label>
-          <input
-            type="text"
-            name="avatarUrl"
-            value={formData.avatarUrl}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-md"
-          />
-        </div>
+        {/* Form inputs */}
+        <div className="content-center space-y-4">
+          {[
+            { label: 'Name', name: 'name', type: 'text', required: true },
+            { label: 'Email', name: 'email', type: 'email', required: true },
+            { label: 'Password', name: 'password', type: 'password', required: true },
+            { label: 'Bio', name: 'bio', type: 'textarea', required: false },
+            { label: 'Avatar URL', name: 'avatarUrl', type: 'text', required: false },
+            { label: 'Avatar Alt Text', name: 'avatarAlt', type: 'text', required: false },
+            { label: 'Banner URL', name: 'bannerUrl', type: 'text', required: false },
+            { label: 'Banner Alt Text', name: 'bannerAlt', type: 'text', required: false },
+          ].map(({ label, name, type, required }) => (
+            <label key={name} className="label-container">
+              <p className="input-text">{label}</p>
+              {type === 'textarea' ? (
+                <textarea
+                  name={name}
+                  value={formData[name]}
+                  onChange={handleChange}
+                  className="input-styling mt-1 mx-auto"
+                />
+              ) : (
+                <input
+                  type={type}
+                  name={name}
+                  value={formData[name]}
+                  onChange={handleChange}
+                  required={required}
+                  className="input-styling mt-1 mx-auto"
+                  placeholder={`Enter your ${label.toLowerCase()}`}
+                />
+              )}
+            </label>
+          ))}
 
-        {/* Avatar Alt Text (Optional) */}
-        <div>
-          <label className="block font-medium">Avatar Alt Text</label>
-          <input
-            type="text"
-            name="avatarAlt"
-            value={formData.avatarAlt}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-md"
-          />
-        </div>
-
-        {/* Banner URL (Optional) */}
-        <div>
-          <label className="block font-medium">Banner URL</label>
-          <input
-            type="text"
-            name="bannerUrl"
-            value={formData.bannerUrl}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-md"
-          />
-        </div>
-
-        {/* Banner Alt Text (Optional) */}
-        <div>
-          <label className="block font-medium">Banner Alt Text</label>
-          <input
-            type="text"
-            name="bannerAlt"
-            value={formData.bannerAlt}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-md"
-          />
-        </div>
-
-        {/* Venue Manager */}
-        <div>
-          <label className="flex items-center">
+          {/* Venue Manager Checkbox */}
+          <label className="label-container flex-row justify-start gap-2">
             <input
               type="checkbox"
               checked={formData.venueManager}
               onChange={handleVenueManagerChange}
-              className="mr-2"
+              className="w-5 h-5"
             />
-            Become a Venue Manager
+            <span className="text-sm">Become a Venue Manager</span>
           </label>
         </div>
 
         {/* Submit Button */}
-        <div>
-          <button
-            type="submit"
-            className="w-full py-2 px-4 bg-blue-600 text-white rounded-md"
-            disabled={loading}
-          >
-            {loading ? 'Registering...' : 'Register'}
-          </button>
-        </div>
-      </form>
-    </div>
+        <button
+          type="submit"
+          className="standard-button w-full mt-6"
+          disabled={loading}
+        >
+          {loading ? 'Registering...' : 'Register'}
+        </button>
+      </div>
+    </form>
   );
 }
 
