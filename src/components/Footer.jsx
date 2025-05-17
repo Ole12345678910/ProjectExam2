@@ -1,17 +1,63 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <header className="p-4 shadow-md">
-      <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-bold">
-          <Link to="/">Holidaze</Link>
-        </h1>
-        <nav className="space-x-4">
-          <Link to="/" className="hover:underline">Home</Link>
-        </nav>
+    <footer>
+      <div className="flex flex-col bg-greySecond px-4 py-6">
+        {/* Logo */}
+        <div className="text-xl font-montserrat font-semibold mb-4">
+          <Link className="flex items-center" to="/">
+            SnapBook
+            <div className="h-[1rem] w-[1rem] bg-yellowMain border-2 border-black rounded-full ml-1"></div>
+          </Link>
+        </div>
+
+        {/* About */}
+        <div className="mb-6 max-w-2xl">
+          <p className="font-semibold mb-1">About SnapBook</p>
+          <p className="text-sm text-gray-700">
+            SnapBook makes booking easy and fast, with stays in your favorite
+            cities. Simple, seamless, and all in one app.
+          </p>
+        </div>
+
+        {/* Links Section */}
+        <div className="flex flex-wrap justify-between w-full mb-6">
+          <div className="flex flex-1 justify-around">
+            <div>
+              <p className="font-semibold mb-1">Connect</p>
+              <p>Instagram</p>
+              <p>Twitter</p>
+              <p>LinkedIn</p>
+            </div>
+            <div>
+              <p className="font-semibold mb-1">Support</p>
+              <p>Help Center</p>
+              <p>Contact Us</p>
+              <p>Terms & Privacy</p>
+            </div>
+            <div>
+              <p className="font-semibold mb-1">Explore</p>
+              <p>How It Works</p>
+              <p>Cities We Serve</p>
+              <p>Become a Host</p>
+            </div>
+          </div>
+
+          {/* Logo image aligned to right */}
+          <img
+            className="w-32 h-32 m-3 self-start"
+            src="/src/assets/SnapBookMark.png"
+            alt="SnapBook logo"
+          />
+        </div>
+
+        {/* Bottom bar */}
       </div>
-    </header>
+        <p className="bg-yellowMain text-center text-[8px] py-1">
+          © 2025 SnapBook. All rights reserved
+        </p>
+    </footer>
   );
 }
 
