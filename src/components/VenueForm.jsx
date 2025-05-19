@@ -1,6 +1,4 @@
 import React from "react";
-
-
 export default function VenueForm({
   formData,
   setFormData,
@@ -11,106 +9,143 @@ export default function VenueForm({
 }) {
   const handleChange = (e) => {
     const { name, type, value, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+    setFormData((p) => ({ ...p, [name]: type === "checkbox" ? checked : value }));
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      style={{ display: "flex", flexDirection: "column", gap: "0.5rem", maxWidth: "300px" }}
+      className="flex flex-col gap-3 w-full max-w-md bg-greySecond p-6"
     >
-      <label>
+      {/* ─── simple fields ─── */}
+      <label className="flex flex-col input-text">
         Venue Name:
-        <input name="name" value={formData.name} onChange={handleChange} required />
+        <input
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+          className="input-styling"
+        />
       </label>
 
-      <label>
+      <label className="flex flex-col input-text">
         Description:
-        <textarea name="description" value={formData.description} onChange={handleChange} required />
+        <textarea
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          required
+          className="input-styling"
+        />
       </label>
 
-      <label>
+      <label className="flex flex-col input-text">
         Price:
-        <input name="price" type="number" value={formData.price} onChange={handleChange} required />
+        <input
+          name="price"
+          type="number"
+          value={formData.price}
+          onChange={handleChange}
+          required
+          className="input-styling"
+        />
       </label>
 
-      <label>
+      <label className="flex flex-col input-text">
         Max Guests:
-        <input name="maxGuests" type="number" value={formData.maxGuests} onChange={handleChange} required />
+        <input
+          name="maxGuests"
+          type="number"
+          value={formData.maxGuests}
+          onChange={handleChange}
+          required
+          className="input-styling"
+        />
       </label>
 
-      <label>
+      <label className="flex flex-col input-text">
         Rating:
-        <input name="rating" type="number" value={formData.rating} onChange={handleChange} />
+        <input
+          name="rating"
+          type="number"
+          value={formData.rating}
+          onChange={handleChange}
+          className="input-styling"
+        />
       </label>
 
+      {/* ─── amenity checkboxes ─── */}
       <fieldset>
-        <legend>Amenities</legend>
-        <label>
-          <input type="checkbox" name="wifi" checked={formData.wifi} onChange={handleChange} />
-          WiFi
-        </label>
-        <label>
-          <input type="checkbox" name="parking" checked={formData.parking} onChange={handleChange} />
-          Parking
-        </label>
-        <label>
-          <input type="checkbox" name="breakfast" checked={formData.breakfast} onChange={handleChange} />
-          Breakfast
-        </label>
-        <label>
-          <input type="checkbox" name="pets" checked={formData.pets} onChange={handleChange} />
-          Pets
-        </label>
+        <legend className="input-text mb-1">Amenities:</legend>
+        {["wifi", "parking", "breakfast", "pets"].map((key) => (
+          <label key={key} className="inline-flex items-center gap-1 mr-4">
+            <input
+              type="checkbox"
+              name={key}
+              checked={formData[key]}
+              onChange={handleChange}
+            />
+            {key.charAt(0).toUpperCase() + key.slice(1)}
+          </label>
+        ))}
       </fieldset>
 
-      <fieldset>
-        <legend>Location</legend>
-        <label>
-          Address:
-          <input name="address" value={formData.address} onChange={handleChange} />
-        </label>
-        <label>
-          City:
-          <input name="city" value={formData.city} onChange={handleChange} />
-        </label>
-        <label>
-          Zip:
-          <input name="zip" value={formData.zip} onChange={handleChange} />
-        </label>
-        <label>
-          Country:
-          <input name="country" value={formData.country} onChange={handleChange} />
-        </label>
-        <label>
-          Continent:
-          <input name="continent" value={formData.continent} onChange={handleChange} />
-        </label>
-        <label>
-          Latitude:
-          <input name="lat" type="number" value={formData.lat} onChange={handleChange} />
-        </label>
-        <label>
-          Longitude:
-          <input name="lng" type="number" value={formData.lng} onChange={handleChange} />
-        </label>
+      {/* ─── location ─── */}
+      <fieldset className="grid grid-cols-2 gap-2">
+        <legend className="mb-1 input-text">Location:</legend>
+        {[
+          "address",
+          "city",
+          "zip",
+          "country",
+          "continent",
+          ["lat", "Latitude"],
+          ["lng", "Longitude"],
+        ].map((f) => {
+          const [name, label = name] = Array.isArray(f) ? f : [f, f];
+          return (
+            <label key={name} className="flex flex-col">
+              {label}
+              <input
+                name={name}
+                value={formData[name]}
+                onChange={handleChange}
+                className="input-styling"
+              />
+            </label>
+          );
+        })}
       </fieldset>
 
-      <label>
-        Image URLs (space/newline separated):
+      {/* ─── images ─── */}
+      <label className="flex flex-col input-text">
+        Image URLs (space / newline separated):
         <textarea
           name="mediaText"
           value={formData.mediaText}
           onChange={handleChange}
           rows={3}
+          className="input-styling"
         />
       </label>
 
-      <button type="submit">{submitText}</button>
-      {showCancel && <button type="button" onClick={onCancel}>Cancel</button>}
+      {/* ─── buttons ─── */}
+      <div className="mt-2 flex gap-3">
+        <button type="submit" className="btn-primary flex-1 standard-button">
+          {submitText}
+        </button>
+        {showCancel && (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="btn-secondary flex-1 cancel-button"
+          >
+            Cancel
+          </button>
+        )}
+      </div>
     </form>
   );
 }
+

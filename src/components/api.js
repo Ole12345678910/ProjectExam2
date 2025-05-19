@@ -42,6 +42,10 @@ export const updateProfile = (profileName, data) => {
   return put(`${BASE_URL}/profiles/${profileName}`, data);
 };
 
+// ✅ Search Venues
+export const searchVenues = (query) =>
+  fetchRequest(`${BASE_URL}/venues/search?q=${encodeURIComponent(query)}`, 'GET');
+
 
 // Generic function to make GET requests
 const get = (url) => fetchRequest(url, 'GET');
@@ -94,6 +98,8 @@ export const deleteVenue = (venueId) => del(`${BASE_URL}/venues/${venueId}`);
 
 // ✅ Update Venue
 export const updateVenue = (venueId, updatedData) => put(`${BASE_URL}/venues/${venueId}`, updatedData);
+
+
 
 // ✅ Login User
 export const loginUser = async (email, password) => {
