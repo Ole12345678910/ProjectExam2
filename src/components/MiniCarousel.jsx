@@ -17,8 +17,9 @@ const MiniCarousel = ({ media, venueName, venueId }) => {
       <Carousel
         showThumbs={false}
         showStatus={false}
-        infiniteLoop
-        swipeable
+        showIndicators={media.length > 1}
+        infiniteLoop={media.length > 1}
+        swipeable={media.length > 1}
         emulateTouch
         autoPlay={false}
         className="max-w-md rounded-xl overflow-hidden relative"

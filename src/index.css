@@ -58,6 +58,91 @@ body {
 }
 
 
+.cancel-button {
+  @apply px-4 py-2 bg-cancelBtnColor text-base border-2 border-cancelBtnBorder rounded-xl m-1 max-w-[255px] w-full mx-auto block;
+}
+
 .auth-button{
   @apply bg-yellowMain px-5 py-2 rounded-full text-sm font-medium;
 }
+
+
+
+
+
+.react-calendar {
+  @apply rounded-lg border border-greySecond;
+}
+
+/* Navigation styling */
+.react-calendar__navigation {
+  @apply flex justify-center mb-2 gap-2 max-w-xs mx-auto;
+}
+
+.react-calendar__navigation button {
+  @apply border-0 px-3 py-1 rounded cursor-pointer rounded-full flex items-center justify-center text-lg leading-none;
+}
+
+.react-calendar__month-view__days {
+  @apply grid grid-cols-7;
+}
+
+
+/* Weekdays header */
+.react-calendar__month-view__weekdays {
+  @apply grid grid-cols-7 text-center;
+}
+
+/* Each day tile */
+.react-calendar__tile {
+  @apply bg-white h-10 w-10 flex items-center justify-center transition-colors duration-200;
+}
+
+/* Hover effect on day tiles */
+.react-calendar__tile:hover:not(:disabled):not(.react-calendar__tile--active) {
+  @apply bg-blue-100 cursor-pointer;
+}
+
+
+/* Navigation arrows */
+.react-calendar__navigation__prev-button,
+.react-calendar__navigation__next-button {
+  @apply w-10 h-10 p-0 rounded-full flex items-center justify-center text-lg leading-none bg-yellowMain;
+}
+
+/* Optionally hide the double arrows (prev2, next2) */
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button {
+  @apply hidden;
+}
+
+
+/* Hover & valgt */
+.react-calendar__tile:hover:not(:disabled):not(.react-calendar__tile--active) {
+  @apply bg-blue-100 cursor-pointer;
+}
+
+.react-calendar__tile {
+  @apply h-10 aspect-square            /* 40 px høyde + kvadrat */
+         flex items-center justify-center bg-white
+         transition-colors duration-200;
+}
+
+
+.highlighted-mine {
+  @apply bg-mine;
+}
+.highlighted-editing {
+  @apply bg-editing;
+}
+.highlighted-selected {
+  @apply bg-selected;
+}
+.highlighted-start {
+  @apply bg-start;
+}
+
+
+
+
+
