@@ -7,16 +7,16 @@ function Footer() {
         {/* Logo */}
         <div className="text-xl font-montserrat font-semibold mb-4">
           <Link className="flex items-center" to="/">
-            SnapBook
+            Holidaze
             <div className="h-[1rem] w-[1rem] bg-yellowMain border-2 border-black rounded-full ml-1"></div>
           </Link>
         </div>
 
         {/* About */}
         <div className="mb-6 max-w-2xl">
-          <p className="font-semibold mb-1">About SnapBook</p>
+          <p className="font-semibold mb-1">About Holidaze</p>
           <p className="text-sm text-gray-700">
-            SnapBook makes booking easy and fast, with stays in your favorite
+            Holidaze makes booking easy and fast, with stays in your favorite
             cities. Simple, seamless, and all in one app.
           </p>
         </div>
@@ -47,15 +47,15 @@ function Footer() {
           {/* Logo image aligned to right */}
           <img
             className="w-32 h-32 m-3 self-start"
-            src="/src/assets/SnapBookMark.png"
-            alt="SnapBook logo"
+            src="/src/assets/HolidazeMark.png"
+            alt="Holidaze logo"
           />
         </div>
 
         {/* Bottom bar */}
       </div>
         <p className="bg-yellowMain text-center text-[8px] py-1">
-          © 2025 SnapBook. All rights reserved
+          © 2025 Holidaze. All rights reserved
         </p>
     </footer>
   );

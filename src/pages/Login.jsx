@@ -65,7 +65,7 @@ function LoginPage() {
         {/* Logo & title */}
         <div className="text-4xl font-montserrat font-semibold mb-2 text-center">
           <p className="flex items-center justify-center">
-            SnapBook
+            Holidaze
             <div className="h-8 w-8 bg-yellowMain border-2 border-blackMain rounded-full ml-2"></div>
           </p>
         </div>

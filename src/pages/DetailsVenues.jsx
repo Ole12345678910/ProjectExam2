@@ -274,8 +274,8 @@ function DetailVenues() {
           <div className="w-32 h-32 m-3 ml-auto">
             <img
               className="flex justify-end"
-              src="/src/assets/SnapBookMark.png"
-              alt="SnapBook logo"
+              src="/src/assets/HolidazeMark.png"
+              alt="Holidaze logo"
             />
           </div>
         </div>
@@ -381,7 +381,12 @@ function DetailVenues() {
         )}
 
         {/* ─── Your Bookings ─── */}
-        <h3 className="mt-6">Your Bookings:</h3>
+        {myBookings.length > 0 && (
+          <>
+            <h3 className="mt-6">Your Bookings:</h3>
+          </>
+        )}
+
         <ul>
           {myBookings.map(({ booking }, i) => {
             const isEditing = editingBooking?.id === booking.id;

@@ -54,7 +54,7 @@ function Header() {
       <header className="flex items-center justify-between p-4 shadow-md sticky top-0 bg-white z-50">
         {/* Logo */}
         <Link to="/" className="text-xl font-semibold flex items-center">
-          SnapBook
+          Holidaze
           <div className="ml-1 h-4 w-4 bg-yellowMain border-2 border-black rounded-full" />
         </Link>
 
@@ -93,7 +93,6 @@ function Header() {
                     className="w-8 h-8 rounded-full object-cover hover:ring-2 hover:ring-black"
                   />
                 )}
-                <span className="ml-2">{userName}</span>
               </Link>
               <button
                 onClick={handleLogout}
@@ -193,7 +192,6 @@ function Header() {
                   <Link
                     to={`/profile/${userName}`}
                     onClick={() => setMenuOpen(false)}
-                    className="flex items-center gap-2"
                   >
                     {userAvatar && (
                       <img
@@ -202,7 +200,6 @@ function Header() {
                         className="w-8 h-8 rounded-full object-cover"
                       />
                     )}
-                    {userName}
                   </Link>
                 </li>
 

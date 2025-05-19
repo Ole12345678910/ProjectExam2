@@ -6,22 +6,14 @@ body {
   @apply font-inter text-blackMain;
 }
 
-.highlighted-booked {
-  background-color: #f8d7da !important; /* Redish - unavailable */
+@layer utilities {
+  /* one extra class in front = higher specificity */
+  .react-calendar__tile.highlighted-booked   { @apply bg-booked;   }
+  .react-calendar__tile.highlighted-mine     { @apply bg-mine;  }
+  .react-calendar__tile.highlighted-editing  { @apply bg-editing;}
+  .react-calendar__tile.highlighted-selected { @apply bg-selected; }
+  .react-calendar__tile.highlighted-start    { @apply bg-start;}
 }
-.highlighted-mine {
-  background-color: #d1ecf1 !important; /* Light blue - your booking */
-}
-.highlighted-editing {
-  background-color: #ffcc80 !important; /* Orange - editing mode */
-}
-.highlighted-selected {
-  background-color: #90ee90 !important; /* Green - new selection */
-}
-.highlighted-start {
-  background-color: #ffdeac !important; /* Orange-ish - starting date */
-}
-
 .carousel .control-dots .dot {
   @apply w-3 h-3 rounded-full bg-gray-400 opacity-50 transition-opacity duration-300;
   cursor: pointer;

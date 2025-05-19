@@ -50,7 +50,7 @@ const Home = () => {
         <div>
           <h2 className="font-Montserrat text-3xl">Stay better. Book easier.</h2>
           <p>Designed for explorers, built for ease — your next great stay is just a tap away</p>
-          <p className="mt-4 font-semibold">Why Book With SnapBook?</p>
+          <p className="mt-4 font-semibold">Why Book With Holidaze?</p>
           <ul className="list-disc pl-6 mt-2 space-y-2">
             <li><span className="font-medium">Curated Stays:</span> Handpicked quality places — no guesswork, no stress.</li>
             <li><span className="font-medium">Fast & Simple:</span> Book in just a few clicks — built for speed and ease.</li>
@@ -58,7 +58,7 @@ const Home = () => {
             <li><span className="font-medium">Smart Amenities:</span> Know exactly what you get — Wi-Fi, breakfast, etc.</li>
           </ul>
         </div>
-        <img className="w-32 h-32 m-3" src="/src/assets/SnapBookMark.png" alt="SnapBook logo" />
+        <img className="w-32 h-32 m-3" src="/src/assets/HolidazeMark.png" alt="Holidaze logo" />
       </div>
 
       <div className="bg-greySecond">
