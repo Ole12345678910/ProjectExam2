@@ -11,23 +11,30 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const Home = () => {
+  /* ───── Available filters ───── */
   const filterItems = [
     { id: "pets", label: "Pet-Friendly Stays", icon: <PiPawPrint /> },
-    { id: "wifi", label: "WiFi Ready", icon: <IoWifiOutline /> },
+    { id: "wifi", label: "Wi-Fi Ready", icon: <IoWifiOutline /> },
     { id: "breakfast", label: "Breakfast Included", icon: <PiEggCrackLight /> },
     { id: "parking", label: "Parking Available", icon: <LuCircleParking /> },
   ];
 
+  /* ───── State ───── */
   const [selectedFilters, setSelectedFilters] = useState([]);
 
+  /* ───── Helpers ───── */
   const toggleFilter = (filterId) => {
     setSelectedFilters((prev) =>
       prev.includes(filterId)
-        ? prev.filter((f) => f !== filterId) 
-        : [...prev, filterId] 
+        ? prev.filter((f) => f !== filterId) // remove
+        : [...prev, filterId]               // add
     );
   };
 
+  const removeFilter = (filterId) =>
+    setSelectedFilters((prev) => prev.filter((f) => f !== filterId));
+
+  /* ───── Slider settings ───── */
   const settings = {
     dots: false,
     arrows: true,
@@ -42,27 +49,50 @@ const Home = () => {
     ],
   };
 
+  /* ───── Render ───── */
   return (
     <div>
+      {/* Hero carousel */}
       <MainCarousel />
 
+      {/* Intro banner */}
       <div className="bg-white max-w-5xl mx-auto px-4 -mt-20 relative z-10 rounded-t-3xl px-6 py-3 flex place-content-between">
         <div>
           <h2 className="font-Montserrat text-3xl">Stay better. Book easier.</h2>
-          <p>Designed for explorers, built for ease — your next great stay is just a tap away</p>
+          <p>
+            Designed for explorers, built for ease — your next great stay is
+            just a tap away
+          </p>
           <p className="mt-4 font-semibold">Why Book With Holidaze?</p>
           <ul className="list-disc pl-6 mt-2 space-y-2">
-            <li><span className="font-medium">Curated Stays:</span> Handpicked quality places — no guesswork, no stress.</li>
-            <li><span className="font-medium">Fast & Simple:</span> Book in just a few clicks — built for speed and ease.</li>
-            <li><span className="font-medium">Pet-Friendly:</span> Easily find places for furry companions.</li>
-            <li><span className="font-medium">Smart Amenities:</span> Know exactly what you get — Wi-Fi, breakfast, etc.</li>
+            <li>
+              <span className="font-medium">Curated Stays:</span> Hand-picked
+              quality places — no guesswork, no stress.
+            </li>
+            <li>
+              <span className="font-medium">Fast &amp; Simple:</span> Book in
+              just a few clicks — built for speed and ease.
+            </li>
+            <li>
+              <span className="font-medium">Pet-Friendly:</span> Easily find
+              places for furry companions.
+            </li>
+            <li>
+              <span className="font-medium">Smart Amenities:</span> Know exactly
+              what you get — Wi-Fi, breakfast, etc.
+            </li>
           </ul>
         </div>
-        <img className="w-32 h-32 m-3" src="/src/assets/HolidazeMark.png" alt="Holidaze logo" />
+        <img
+          className="w-32 h-32 m-3"
+          src="/src/assets/holizaeMark.png"
+          alt="Holidaze logo"
+        />
       </div>
 
+      {/* Main content section */}
       <div className="bg-greySecond">
-        {/* 🔁 Filter Carousel */}
+        {/* ─── Filter carousel ─── */}
         <div className="pt-10 px-6 max-w-6xl mx-auto">
           <div className="bg-white rounded-2xl">
             <Slider {...settings}>
@@ -89,7 +119,32 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Pass selectedFilters as a prop to Venues */}
+        {/* ─── Chip-bar showing active filters ─── */}
+        {selectedFilters.length > 0 && (
+          <div className="flex flex-wrap gap-3 px-6 mt-4 max-w-6xl mx-auto flex justify-center">
+            {selectedFilters.map((id) => {
+              const item = filterItems.find((f) => f.id === id);
+              return (
+                <span
+                  key={id}
+                  className="flex items-center gap-1 bg-white rounded-full px-4 py-1 shadow text-sm"
+                >
+                  {item.icon}
+                  {item.label}
+                  <button
+                    onClick={() => removeFilter(id)}
+                    className="ml-1 text-lg leading-none hover:text-red-600"
+                    aria-label={`Remove ${item.label}`}
+                  >
+                    ×
+                  </button>
+                </span>
+              );
+            })}
+          </div>
+        )}
+
+        {/* ─── Venue list ─── */}
         <Venues selectedFilters={selectedFilters} />
       </div>
     </div>
