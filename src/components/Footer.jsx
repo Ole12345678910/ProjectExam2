@@ -47,7 +47,7 @@ function Footer() {
           {/* Logo image aligned to right */}
           <img
             className="w-32 h-32 m-3 self-start"
-            src="/src/assets/HolidazeMark.png"
+            src="/src/assets/holizaeMark.png"
             alt="Holidaze logo"
           />
         </div>
