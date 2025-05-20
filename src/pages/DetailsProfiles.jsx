@@ -3,7 +3,6 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { getProfileWithDetails, updateProfile } from "../components/api";
 import { FiEdit } from "react-icons/fi";
 
-
 function Modal({ children, onClose }) {
   useEffect(() => {
     document.body.classList.add("overflow-hidden");
@@ -32,7 +31,6 @@ function calculateDaysInclusive(dateFrom, dateTo) {
   return Math.floor((to - from) / msPerDay) + 1;
 }
 
-/* ───────────────────────────────────────────────────────────────────── */
 
 export default function DetailProfile() {
   const { profileName } = useParams();
@@ -84,13 +82,19 @@ export default function DetailProfile() {
     try {
       await updateProfile(profileName, updated);
 
-      /* sync venueManager flag in localStorage */
+      // sync localStorage
       const userData = JSON.parse(localStorage.getItem("user") || "{}");
       userData.venueManager = venueManager;
       localStorage.setItem("user", JSON.stringify(userData));
 
+
+      setProfile((prev) => ({
+        ...prev,
+        ...updated,
+      }));
+
       setOverlayOpen(false);
-      navigate(`/profile/${profileName}`, { replace: true });
+
     } catch (err) {
       console.error("Error updating profile:", err);
     }
@@ -158,10 +162,10 @@ export default function DetailProfile() {
           </button>
         )}
       </div>
-      <p>Your Bookings</p>
 
       {/* bookings list */}
-      <ul className="space-y-6">
+      <ul className="space-y-6 max-w-3xl mx-auto mb-6">
+        <p>Your Bookings</p>
         {profile.bookings.map((b) => {
           const venue = b.venue;
           const mainImage = venue?.media?.[0];
@@ -190,7 +194,7 @@ export default function DetailProfile() {
                 <div className="p-4 flex flex-col gap-1">
                   {/* first line — name left, dates right */}
                   <div className="flex justify-between items-center">
-                    <span className="font-semibold">
+                    <span className="font-semibold flex-1 min-w-0 truncate">
                       {venue?.name || "Venue"}
                     </span>
                     <span className="auth-button">

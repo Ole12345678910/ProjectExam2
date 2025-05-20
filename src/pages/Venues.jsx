@@ -68,7 +68,7 @@ export default function Venues({
 
   return (
     <div className="mb-36 pb-9">
-      <div className="max-w-7xl mx-auto px-4 py-8 flex justify-center">
+      <div className="max-w-5xl mx-auto py-8 flex justify-center">
         <ul className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {listToShow.map((venue) => (
             <li
@@ -123,14 +123,14 @@ export default function Venues({
                 <div className="mt-4 grid grid-cols-2">
                   <button
                     onClick={() => onEdit?.(venue)}
-                    className="w-full px-3 py-1 bg-blue-500 text-white hover:bg-blue-600"
+                    className="w-full px-3 py-1 bg-yellowMain text-white"
                   >
                     Edit
                   </button>
 
                   <button
                     onClick={() => onDelete?.(venue.id)}
-                    className="w-full px-3 py-1 bg-red-500 text-white hover:bg-red-600"
+                    className="w-full px-3 py-1 bg-red-500 text-white"
                   >
                     Delete
                   </button>
