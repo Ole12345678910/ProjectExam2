@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import holizaeMark from "../assets/holizaeMark.png";
 function Footer() {
   return (
     <footer>
@@ -45,11 +45,7 @@ function Footer() {
           </div>
 
           {/* Logo image aligned to right */}
-          <img
-            className="w-32 h-32 m-3 self-start"
-            src="/src/assets/holizaeMark.png"
-            alt="Holidaze logo"
-          />
+<img src={holizaeMark} className="w-32 h-32 m-3" alt="Holidaze logogo" />
         </div>
 
         {/* Bottom bar */}
