@@ -9,6 +9,7 @@ import {
   deleteBooking,
 } from "../components/api";
 import { FaStar } from "react-icons/fa";
+import holizaeMark from "../assets/holizaeMark.png";
 
 function DetailVenues() {
   const { id } = useParams();
@@ -96,25 +97,24 @@ function DetailVenues() {
     return true;
   };
 
-const handleDayClick = (date) => {
-  setAutoSelectDates(false); 
+  const handleDayClick = (date) => {
+    setAutoSelectDates(false);
 
-  if (selectedDates.length === 0 || selectedDates.length === 2) {
-    setSelectedDates([date]);
-    return;
-  }
+    if (selectedDates.length === 0 || selectedDates.length === 2) {
+      setSelectedDates([date]);
+      return;
+    }
 
-  const start = selectedDates[0];
-  const end = date < start ? start : date;
-  const range = [start < end ? start : end, start < end ? end : start];
+    const start = selectedDates[0];
+    const end = date < start ? start : date;
+    const range = [start < end ? start : end, start < end ? end : start];
 
-  if (validateDateRange(range)) {
-    setSelectedDates(range);
-  } else {
-    setSelectedDates([]);
-  }
-};
-
+    if (validateDateRange(range)) {
+      setSelectedDates(range);
+    } else {
+      setSelectedDates([]);
+    }
+  };
 
   const handleBooking = async () => {
     if (selectedDates.length !== 2 || guests < 1) {
@@ -161,44 +161,40 @@ const handleDayClick = (date) => {
     }
   };
 
-useEffect(() => {
-  setSelectedDates([]); 
-  setAutoSelectDates(true);
-}, []);
+  useEffect(() => {
+    setSelectedDates([]);
+    setAutoSelectDates(true);
+  }, []);
 
+  useEffect(() => {
+    if (!venue || selectedDates.length > 0 || !autoSelectDates) return;
 
-useEffect(() => {
-  if (!venue || selectedDates.length > 0 || !autoSelectDates) return;
+    const today = new Date();
+    const maxLookahead = 730;
 
-  const today = new Date();
-  const maxLookahead = 730;
+    for (let i = 0; i < maxLookahead; i++) {
+      const start = new Date(today);
+      start.setDate(today.getDate() + i);
+      // Normalize start date
+      start.setHours(0, 0, 0, 0);
 
-  for (let i = 0; i < maxLookahead; i++) {
-    const start = new Date(today);
-    start.setDate(today.getDate() + i);
-    // Normalize start date
-    start.setHours(0, 0, 0, 0);
+      const end = new Date(start);
+      end.setDate(start.getDate() + 1);
+      // Normalize end date
+      end.setHours(0, 0, 0, 0);
 
-    const end = new Date(start);
-    end.setDate(start.getDate() + 1);
-    // Normalize end date
-    end.setHours(0, 0, 0, 0);
+      const isOverlapping = otherBookings.some((d) => {
+        const normalizedD = new Date(d);
+        normalizedD.setHours(0, 0, 0, 0);
+        return normalizedD >= start && normalizedD <= end;
+      });
 
-    const isOverlapping = otherBookings.some((d) => {
-      const normalizedD = new Date(d);
-      normalizedD.setHours(0, 0, 0, 0);
-      return normalizedD >= start && normalizedD <= end;
-    });
-
-    if (!isOverlapping) {
-      setSelectedDates([start, end]);
-      break;
+      if (!isOverlapping) {
+        setSelectedDates([start, end]);
+        break;
+      }
     }
-  }
-}, [venue, otherBookings, selectedDates, autoSelectDates]);
-
-
-
+  }, [venue, otherBookings, selectedDates, autoSelectDates]);
 
   const tileClassName = ({ date }) => {
     const isMine = allMyBookingDates.some(
@@ -233,26 +229,21 @@ useEffect(() => {
   if (error) return <p>{error}</p>;
   if (!venue) return <p>Loading...</p>;
 
+  const normalizeDate = (date) => {
+    const d = new Date(date);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  };
 
-const normalizeDate = (date) => {
-  const d = new Date(date);
-  d.setHours(0, 0, 0, 0);  
-  return d;
-};
-
-
-const totalDays =
-  selectedDates.length === 2
-    ? Math.round(
-        (normalizeDate(selectedDates[1]) - normalizeDate(selectedDates[0])) /
-          (1000 * 60 * 60 * 24)
-      ) + 1
-    : selectedDates.length === 1
-    ? 1
-    : 0;
-
-
-
+  const totalDays =
+    selectedDates.length === 2
+      ? Math.round(
+          (normalizeDate(selectedDates[1]) - normalizeDate(selectedDates[0])) /
+            (1000 * 60 * 60 * 24)
+        ) + 1
+      : selectedDates.length === 1
+      ? 1
+      : 0;
 
   const totalPrice = totalDays * venue.price;
 
@@ -319,9 +310,9 @@ const totalDays =
 
             <div className="w-32 h-32 m-3 ml-auto">
               <img
-                className="flex justify-end"
-                src="/src/assets/holizaeMark.png"
-                alt="holidaze logo"
+                src={holizaeMark}
+                className="w-32 h-32 m-3"
+                alt="Holidaze logogo"
               />
             </div>
           </div>
@@ -479,36 +470,36 @@ const totalDays =
 
       {/* Sticky booking bar */}
 
-        {selectedDates.length === 2 && (
-          <div className="fixed bottom-0 left-0 w-full bg-white p-4 border-t border-gray-300">
-            <div className="max-w-7xl mx-auto flex items-center justify-between">
-              <div>
-                <p>
-                  Selected Dates: {selectedDates[0].toDateString()} -{" "}
-                  {selectedDates[1].toDateString()}
-                </p>
-                <p>Guests: {guests}</p>
-                <p>
-                  Total Price: <strong>${totalPrice}</strong>
-                </p>
-              </div>
+      {selectedDates.length === 2 && (
+        <div className="fixed bottom-0 left-0 w-full bg-white p-4 border-t border-gray-300">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <div>
+              <p>
+                Selected Dates: {selectedDates[0].toDateString()} -{" "}
+                {selectedDates[1].toDateString()}
+              </p>
+              <p>Guests: {guests}</p>
+              <p>
+                Total Price: <strong>${totalPrice}</strong>
+              </p>
+            </div>
 
-              <div className="flex items-center gap-4">
-                <input
-                  type="number"
-                  min={1}
-                  max={venue.maxGuests}
-                  value={guests}
-                  onChange={(e) => setGuests(parseInt(e.target.value, 10) || 1)}
-                  className="border rounded px-2 py-1 w-20"
-                />
-                <button onClick={handleBooking} className="standard-button">
-                  {editingBooking ? "Update Booking" : "Book Now"}
-                </button>
-              </div>
+            <div className="flex items-center gap-4">
+              <input
+                type="number"
+                min={1}
+                max={venue.maxGuests}
+                value={guests}
+                onChange={(e) => setGuests(parseInt(e.target.value, 10) || 1)}
+                className="border rounded px-2 py-1 w-20"
+              />
+              <button onClick={handleBooking} className="standard-button">
+                {editingBooking ? "Update Booking" : "Book Now"}
+              </button>
             </div>
           </div>
-        )}
+        </div>
+      )}
     </>
   );
 }

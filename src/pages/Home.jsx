@@ -6,6 +6,7 @@ import { PiPawPrint } from "react-icons/pi";
 import { IoWifiOutline } from "react-icons/io5";
 import { PiEggCrackLight } from "react-icons/pi";
 import { LuCircleParking } from "react-icons/lu";
+import holizaeMark from "../assets/holizaeMark.png";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -24,10 +25,11 @@ const Home = () => {
 
   /* ───── Helpers ───── */
   const toggleFilter = (filterId) => {
-    setSelectedFilters((prev) =>
-      prev.includes(filterId)
-        ? prev.filter((f) => f !== filterId) // remove
-        : [...prev, filterId]               // add
+    setSelectedFilters(
+      (prev) =>
+        prev.includes(filterId)
+          ? prev.filter((f) => f !== filterId) // remove
+          : [...prev, filterId] // add
     );
   };
 
@@ -58,7 +60,9 @@ const Home = () => {
       {/* Intro banner */}
       <div className="bg-white max-w-5xl mx-auto px-4 -mt-20 relative z-10 rounded-t-3xl px-6 py-3 flex place-content-between">
         <div>
-          <h2 className="font-Montserrat text-3xl">Stay better. Book easier.</h2>
+          <h2 className="font-Montserrat text-3xl">
+            Stay better. Book easier.
+          </h2>
           <p>
             Designed for explorers, built for ease — your next great stay is
             just a tap away
@@ -84,9 +88,9 @@ const Home = () => {
           </ul>
         </div>
         <img
+          src={holizaeMark}
           className="w-32 h-32 m-3"
-          src="/src/assets/holizaeMark.png"
-          alt="Holidaze logo"
+          alt="Holidaze logogo"
         />
       </div>
 
@@ -152,6 +156,3 @@ const Home = () => {
 };
 
 export default Home;
-
-
-
