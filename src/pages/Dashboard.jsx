@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { PiChartBar } from "react-icons/pi";
 
@@ -32,41 +31,42 @@ function Modal({ children, onClose }) {
 
 export default function Dashboard() {
   /* auth / profile */
-  const token    = localStorage.getItem("token");
-  const user     = JSON.parse(localStorage.getItem("user") || "{}");
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
   const username = user?.name;
 
-  const { profile, venues, error, refresh, setVenues } =
-    useProfile(token, username);
+  const { profile, venues, error, refresh, setVenues } = useProfile(
+    token,
+    username
+  );
 
   /* local state */
-  const [formData,     setFormData]     = useState(emptyVenueForm); // for create
+  const [formData, setFormData] = useState(emptyVenueForm); // for create
   const [editFormData, setEditFormData] = useState(emptyVenueForm); // for edit
-  const [editVenueId,  setEditVenueId]  = useState(null);
-  const [createOpen,   setCreateOpen]   = useState(false);         // NEW
-  const [submitMsg,    setSubmitMsg]    = useState("");
+  const [editVenueId, setEditVenueId] = useState(null);
+  const [createOpen, setCreateOpen] = useState(false); // NEW
+  const [submitMsg, setSubmitMsg] = useState("");
 
-/* live clock */
-const [now, setNow] = useState(new Date());
-useEffect(() => {
-  const id = setInterval(() => setNow(new Date()), 1_000);
-  return () => clearInterval(id);
-}, []);
+  /* live clock */
+  const [now, setNow] = useState(new Date());
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1_000);
+    return () => clearInterval(id);
+  }, []);
 
-/* helper that formats in desired TZ */
-const formatDateTime = (date) =>
-  date.toLocaleString("en-GB", {
-    // pick the locale you like
-    timeZone: "Europe/Oslo",   // ← change to the zone you want
-    weekday: "short",
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
-
+  /* helper that formats in desired TZ */
+  const formatDateTime = (date) =>
+    date.toLocaleString("en-GB", {
+      // pick the locale you like
+      timeZone: "Europe/Oslo", // ← change to the zone you want
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
 
   /* lock background scroll when any modal open */
   useEffect(() => {
@@ -82,7 +82,7 @@ const formatDateTime = (date) =>
 
   const handleSubmit = async (e, action, id) => {
     e.preventDefault();
-    const data    = action === "create" ? formData : editFormData;
+    const data = action === "create" ? formData : editFormData;
     const payload = buildVenuePayload(data);
 
     try {
@@ -114,25 +114,26 @@ const formatDateTime = (date) =>
   };
 
   /* render */
-  if (error)    return <p>Error: {error}</p>;
+  if (error) return <p>Error: {error}</p>;
   if (!profile) return <p>Loading...</p>;
 
   return (
-    <div>
+    <div className="">
       {/* greeting / clock */}
       <div className="mt-6">
-        <p className="ml-6 flex items-center gap-2 font-Montserrat text-3xl">
-          Hi, {profile.name} <PiChartBar />
-        </p>
+        <div className="max-w-7xl mx-auto">
+          <p className="ml-6 flex items-center gap-2 font-Montserrat text-3xl">
+            Hi, {profile.name} <PiChartBar />
+          </p>
           <p className="ml-6">{formatDateTime(now)}</p>
-
+        </div>
         <div className="bg-greySecond h-2 mt-6" />
       </div>
 
       {submitMsg && <p>{submitMsg}</p>}
 
       {/* your venues */}
-      <section>
+      <section  className="max-w-5xl mx-auto">
         <h2 className="ml-6 text-xl my-2">Your Venues</h2>
         {venues.length === 0 ? (
           <p>No venues yet</p>
@@ -148,10 +149,7 @@ const formatDateTime = (date) =>
 
       {/* button to open CREATE modal */}
       <section className="mt-6">
-        <button
-          onClick={() => setCreateOpen(true)}
-          className="standard-button"
-        >
+        <button onClick={() => setCreateOpen(true)} className="standard-button">
           Make a Venue
         </button>
       </section>

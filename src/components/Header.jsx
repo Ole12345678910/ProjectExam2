@@ -58,13 +58,18 @@ function Header() {
           <div className="ml-1 h-4 w-4 bg-yellowMain border-2 border-black rounded-full" />
         </Link>
 
-        {/* Desktop nav & search */}
-        <div className="hidden md:flex items-center flex-1 mx-4 space-x-6">
-          <form onSubmit={onSubmit} className="relative flex-1">
-            <PiMagnifyingGlass
+        {/* Midten: Søkefelt */}
+        <div className="hidden md:flex flex-1 justify-center">
+          <form onSubmit={onSubmit} className="relative w-full max-w-md">
+            {/* Gjør ikonet til en knapp som submitter form */}
+            <button
+              type="submit"
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
-              size={18}
-            />
+              aria-label="Search"
+            >
+              <PiMagnifyingGlass size={18} />
+            </button>
+
             <input
               type="text"
               value={searchTerm}
@@ -73,7 +78,10 @@ function Header() {
               className="w-full pl-10 pr-4 py-1 border border-gray-300 rounded-full focus:outline-none focus:ring-1 focus:ring-black"
             />
           </form>
+        </div>
 
+        {/* Høyre: Auth knapper */}
+        <div className="hidden md:flex items-center space-x-6">
           {!isLoggedIn ? (
             <Link to="/login" className="auth-button">
               Log in
@@ -81,8 +89,8 @@ function Header() {
           ) : (
             <>
               {isVenueManager && (
-                <Link to="/dashboard" className="flex items-center gap-1">Dashboard
-                  <PiChartBar /> 
+                <Link to="/dashboard" className="flex items-center gap-1">
+                  Dashboard <PiChartBar />
                 </Link>
               )}
               <Link to={`/profile/${userName}`} className="flex items-center">
@@ -90,7 +98,7 @@ function Header() {
                   <img
                     src={userAvatar}
                     alt="Avatar"
-                    className="w-8 h-8 rounded-full object-cover hover:ring-2 hover:ring-black"
+                    className="w-8 h-8 rounded-full object-cover hover:ring-2 hover:ring-yellowMain"
                   />
                 )}
               </Link>
@@ -104,7 +112,7 @@ function Header() {
           )}
         </div>
 
-        {/* Mobile hamburger */}
+        {/* Mobil hamburger */}
         <button
           className="md:hidden p-2"
           onClick={() => setMenuOpen(true)}
@@ -115,29 +123,20 @@ function Header() {
       </header>
 
       {/* Mobile sidebar overlay */}
-      <div
-        className={`
-          fixed inset-0 z-50 flex
-          pointer-events-none
-        `}
-      >
+      <div className={`fixed inset-0 z-50 flex pointer-events-none`}>
         {/* Backdrop */}
         <div
-          className={`
-            absolute inset-0 bg-black bg-opacity-50
-            transition-opacity duration-300
-            ${menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0"}
-          `}
+          className={`absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${
+            menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0"
+          }`}
           onClick={() => setMenuOpen(false)}
         />
 
         {/* Sidebar sliding from right */}
         <div
-          className={`
-            absolute right-0 top-0 h-full w-80 bg-white pt-16 px-6 pb-6
-            transform transition-transform duration-300 ease-out
-            ${menuOpen ? "translate-x-0 pointer-events-auto" : "translate-x-full"}
-          `}
+          className={`absolute right-0 top-0 h-full w-80 bg-white pt-16 px-6 pb-6 transform transition-transform duration-300 ease-out ${
+            menuOpen ? "translate-x-0 pointer-events-auto" : "translate-x-full"
+          }`}
         >
           <button
             className="absolute top-4 right-4"
@@ -147,17 +146,22 @@ function Header() {
             <PiX size={24} />
           </button>
 
-          <form onSubmit={onSubmit} className="relative mb-6">
-            <PiMagnifyingGlass
+          <form onSubmit={onSubmit} className="relative w-full max-w-md">
+            {/* Gjør ikonet til en knapp som submitter form */}
+            <button
+              type="submit"
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
-              size={18}
-            />
+              aria-label="Search"
+            >
+              <PiMagnifyingGlass size={18} />
+            </button>
+
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search…"
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-1 focus:ring-black"
+              placeholder="Search for Venues…"
+              className="w-full pl-10 pr-4 py-1 border border-gray-300 rounded-full focus:outline-none focus:ring-1 focus:ring-black"
             />
           </form>
 
@@ -183,7 +187,8 @@ function Header() {
                       onClick={() => setMenuOpen(false)}
                       className="flex items-center gap-2"
                     >
-                       Dashboard<PiChartBar />
+                      Dashboard
+                      <PiChartBar />
                     </Link>
                   </li>
                 )}
