@@ -250,7 +250,7 @@ function DetailVenues() {
             <strong>
               <p>{venue.owner.name}</p>
             </strong>
-            <p>{venue.owner.email}</p>
+            <p className="break-all" >{venue.owner.email}</p>
           </div>
         </div>
       )}

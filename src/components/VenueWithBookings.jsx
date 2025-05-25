@@ -39,7 +39,7 @@ export function VenueWithBookings({ venue, onEdit, onDelete }) {
       {/* Edit/Delete buttons */}
       {onEdit && onDelete && (
         <div className="mt-4 grid grid-cols-2 gap-2">
-          <button onClick={() => onEdit(venue)} className="btn-edit">
+          <button onClick={() => onEdit(venue)} className="standard-button">
             Edit
           </button>
           <button onClick={() => onDelete(venue.id)} className="btn-delete">

@@ -336,7 +336,9 @@ body {
 
 
 
-
+.logo-size{
+  @apply h-32 w-32
+}
 
 
 
@@ -417,12 +419,8 @@ body {
     @apply text-sm text-gray-500;
   }
 
-  .btn-edit {
-    @apply w-full px-3 py-1 bg-yellowMain text-white rounded;
-  }
-
   .btn-delete {
-    @apply w-full px-3 py-1 bg-red-500 text-white rounded;
+  @apply px-4 py-2 bg-red-500 text-base border-2 border-cancelBtnBorder rounded-xl m-1 max-w-[255px] w-full mx-auto block;
   }
 
   .bookings-container {
@@ -454,6 +452,6 @@ body {
   }
 
   .no-bookings-text {
-    @apply mt-4 text-sm italic text-gray-400;
+    @apply mt-4 text-sm italic text-gray-400 mx-2;
   }
 }
