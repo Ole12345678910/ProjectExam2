@@ -27,7 +27,6 @@ const fetchRequest = async (url, method = 'GET', body = null) => {
 
   if (!res.ok) {
     const errorData = await res.json().catch(() => ({}));
-    console.error("Error Response:", errorData);
     throw new Error(errorData.errors?.[0]?.message || `Request failed: ${res.statusText}`);
   }
 
@@ -111,18 +110,27 @@ export const loginUser = async (email, password) => {
     body: JSON.stringify(loginData),
   });
 
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "Login failed.");
+  let data;
+  try {
+    data = await response.json();
+  } catch {
+    // Hvis det ikke er gyldig JSON i responsen:
+    const error = new Error("Server response is not JSON.");
+    error.status = response.status;
+    throw error;
   }
 
-  const responseData = await response.json();
-  localStorage.setItem("token", responseData.data.accessToken);
-  localStorage.setItem("user", JSON.stringify(responseData.data));
+  if (!response.ok) {
+    const error = new Error(data.message || `Login failed`);
+    error.status = response.status;
+    throw error;
+  }
 
-  return responseData.data;
+  localStorage.setItem("token", data.data.accessToken);
+  localStorage.setItem("user", JSON.stringify(data.data));
+
+  return data.data;
 };
-
 
 
 export const getProfile = async (username) => {

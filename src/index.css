@@ -284,9 +284,6 @@ body {
   @apply font-semibold mb-1;
 }
 
-.footer-logo-img {
-  @apply w-32 h-32 m-3;
-}
 
 .footer-bottom {
   @apply bg-yellowMain text-center text-[8px] py-1;
@@ -299,7 +296,6 @@ body {
 .footer-sections {
   @apply flex flex-col md:flex-row md:items-start md:justify-between gap-6;
 }
-
 
 /*detailsVennue*/
 

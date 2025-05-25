@@ -61,8 +61,10 @@ function Footer() {
           {/* Logo on right side */}
           <img
             src={holizaeMark}
-            className="footer-logo-img "
             alt="Holidaze logo"
+            width={128}
+            height={64}
+            className="object-contain"
           />
         </div>
       </div>
