@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
-import { rangesOverlap, normalizeDate, daysBetween } from "../../utils/dateutils";
+import { rangesOverlap, normalizeDate, daysBetween } from "../../utils/dateUtils";
 
 import { useDefaultDateRange } from "../../hooks/useDefaultDateRange";
 
@@ -250,7 +250,7 @@ function DetailVenues() {
             <strong>
               <p>{venue.owner.name}</p>
             </strong>
-            <p>{venue.owner.email}</p>
+            <p className="break-all" >{venue.owner.email}</p>
           </div>
         </div>
       )}

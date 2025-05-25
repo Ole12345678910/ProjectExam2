@@ -1,6 +1,6 @@
 
 import { useEffect } from "react";
-import { addDays, normalizeDate } from "../utils/dateutils";
+import { addDays, normalizeDate } from "../utils/dateUtils";
 
 export function useDefaultDateRange({
   venue,

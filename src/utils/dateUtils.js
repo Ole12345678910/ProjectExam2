@@ -35,6 +35,8 @@ export function addDays(date, days) {
   return result;
 }
 
+/**Hey */
+
 // Returnerer true hvis datoen er lørdag eller søndag
 export function isWeekend(date) {
   const day = date.getDay();

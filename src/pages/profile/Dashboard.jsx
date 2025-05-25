@@ -11,8 +11,7 @@ import {
   buildVenuePayload,
 } from "../../utils/venueHelpers";
 import { createVenue, deleteVenue, updateVenue } from "../../components/api";
-import { VenueWithBookings } from  "../../components/VenueWithBookings";
-
+import { VenueWithBookings } from "../../components/VenueWithBookings";
 
 /* simple overlay with scrollable body */
 function Modal({ children, onClose }) {
@@ -43,10 +42,10 @@ export default function Dashboard() {
   );
 
   /* local state */
-  const [formData, setFormData] = useState(emptyVenueForm); 
-  const [editFormData, setEditFormData] = useState(emptyVenueForm); 
+  const [formData, setFormData] = useState(emptyVenueForm);
+  const [editFormData, setEditFormData] = useState(emptyVenueForm);
   const [editVenueId, setEditVenueId] = useState(null);
-  const [createOpen, setCreateOpen] = useState(false); 
+  const [createOpen, setCreateOpen] = useState(false);
   const [submitMsg, setSubmitMsg] = useState("");
 
   /* live clock */
@@ -56,10 +55,9 @@ export default function Dashboard() {
     return () => clearInterval(id);
   }, []);
 
-
   const formatDateTime = (date) =>
     date.toLocaleString("en-GB", {
-      timeZone: "Europe/Oslo", 
+      timeZone: "Europe/Oslo",
       weekday: "short",
       year: "numeric",
       month: "short",
@@ -69,13 +67,11 @@ export default function Dashboard() {
       second: "2-digit",
     });
 
-  /* lock background scroll when any modal open */
   useEffect(() => {
     const open = editVenueId || createOpen;
     document.body.classList.toggle("overflow-hidden", Boolean(open));
   }, [editVenueId, createOpen]);
 
-  /* helpers */
   const handleEdit = (venue) => {
     setEditVenueId(venue.id);
     setEditFormData(normalizeVenueData(venue));
@@ -135,25 +131,31 @@ export default function Dashboard() {
 
       {/* your venues */}
       <h2 className="ml-6 text-xl my-2">Your Venues</h2>
-    <section className="max-w-5xl mx-auto py-8 flex justify-center">
-      {venues.length === 0 ? (
-        <p>No venues yet</p>
-      ) : (
-        <ul className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {venues.map((venue) => (
-            <VenueWithBookings
-              key={venue.id}
-              venue={venue}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
-          ))}
-        </ul>
-      )}
-    </section>
+      <div className="flex justify-between items-center max-w-5xl mx-auto mt-4 px-4">
+        <button
+          onClick={() => setCreateOpen(true)}
+          className="standard-button"
+        >
+          Create Venue
+        </button>
+      </div>
 
-
-      
+      <section className="max-w-5xl mx-auto py-8 flex justify-center">
+        {venues.length === 0 ? (
+          <p>No venues yet</p>
+        ) : (
+          <ul className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            {venues.map((venue) => (
+              <VenueWithBookings
+                key={venue.id}
+                venue={venue}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+            ))}
+          </ul>
+        )}
+      </section>
 
       {/* EDIT overlay */}
       {editVenueId && (
@@ -182,8 +184,6 @@ export default function Dashboard() {
           />
         </Modal>
       )}
-
-
     </div>
   );
 }

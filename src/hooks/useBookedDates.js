@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { getDatesBetween } from "../utils/dateutils";
+import { getDatesBetween } from "../utils/dateUtils";
 
 export function useBookedDates(venue, user) {
   return useMemo(() => {
