@@ -1,58 +1,74 @@
 import { Link } from "react-router-dom";
 import holizaeMark from "../assets/holizaeMark.png";
+import { LuTwitter } from "react-icons/lu";
+import { FaInstagram } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa6";
+
 function Footer() {
   return (
     <footer>
-      <div className="flex flex-col bg-greySecond px-4 py-6">
+      <div className="footer-container">
         {/* Logo */}
-        <div className="text-xl font-montserrat font-semibold mb-4">
-          <Link className="flex items-center" to="/">
+        <div className="footer-logo">
+          <Link className="logo-link" to="/">
             Holidaze
-            <div className="h-[1rem] w-[1rem] bg-yellowMain border-2 border-black rounded-full ml-1"></div>
+            <div className="logo-dot" />
           </Link>
         </div>
 
         {/* About */}
-        <div className="mb-6 max-w-2xl">
-          <p className="font-semibold mb-1">About Holidaze</p>
-          <p className="text-sm text-gray-700">
+        <div className="footer-about">
+          <p className="about-heading">About Holidaze</p>
+          <p className="about-text">
             Holidaze makes booking easy and fast, with stays in your favorite
             cities. Simple, seamless, and all in one app.
           </p>
         </div>
 
-        {/* Links Section */}
-        <div className="flex flex-wrap justify-between w-full mb-6">
-          <div className="flex flex-1 justify-around">
-            <div>
-              <p className="font-semibold mb-1">Connect</p>
-              <p>Instagram</p>
-              <p>Twitter</p>
-              <p>LinkedIn</p>
-            </div>
-            <div>
-              <p className="font-semibold mb-1">Support</p>
-              <p>Help Center</p>
-              <p>Contact Us</p>
-              <p>Terms & Privacy</p>
-            </div>
-            <div>
-              <p className="font-semibold mb-1">Explore</p>
-              <p>How It Works</p>
-              <p>Cities We Serve</p>
-              <p>Become a Host</p>
-            </div>
+        {/* Links Section with logo on right on md+ screens */}
+        <div className="footer-sections">
+          <div className="flex flex-col gap-2">
+            <p className="footer-column-heading">Connect</p>
+
+            <a
+              href="https://twitter.com"
+              className="social-links"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Twitter <LuTwitter />
+            </a>
+
+            <a
+              href="https://www.instagram.com/"
+              className="social-links"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Instagram <FaInstagram />
+            </a>
+
+            <a
+              href="https://www.linkedin.com"
+              className="social-links"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn <FaLinkedin />
+            </a>
           </div>
 
-          {/* Logo image aligned to right */}
-<img src={holizaeMark} className="w-32 h-32 m-3" alt="Holidaze logogo" />
+          {/* Logo on right side */}
+          <img
+            src={holizaeMark}
+            className="footer-logo-img "
+            alt="Holidaze logo"
+          />
         </div>
-
-        {/* Bottom bar */}
       </div>
-        <p className="bg-yellowMain text-center text-[8px] py-1">
-          © 2025 Holidaze. All rights reserved
-        </p>
+
+      {/* Bottom bar */}
+      <p className="footer-bottom">© 2025 Holidaze. All rights reserved</p>
     </footer>
   );
 }

@@ -22,7 +22,7 @@ export default {
         cancelBtnColor: "#D9D9D9",
       },
       fontFamily: {
-        inter: ['Inter', 'sans-serif'],  // Make sure this is correct
+        inter: ['Inter', 'sans-serif'],
         montserrat: ['Montserrat', 'sans-serif'],
       },
     },

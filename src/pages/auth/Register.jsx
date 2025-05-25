@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
-import { registerUser } from '../components/api';
+import { registerUser } from '../../components/api';
 
 function Register() {
   const navigate = useNavigate();
@@ -80,16 +80,16 @@ function Register() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex justify-center items-center min-h-screen bg-greySecond"
+      className="auth-container"
     >
-      <div className="w-full max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-md my-6">
+      <div className="auth-form my-6">
         {/* Header */}
-        <div className="flex justify-between items-center mb-4">
+        <div className="top-line-container">
           <IoMdCloseCircleOutline
-              size={24}
-              className="cursor-pointer"
-              onClick={() => navigate('/')}
-            />
+            size={24}
+            className="cursor-pointer"
+            onClick={() => navigate(-1)}  
+          />
 
           <div>
             <Link className="py-2 font-medium px-5 text-sm" to="/login">
@@ -102,14 +102,14 @@ function Register() {
         </div>
 
         {/* Logo */}
-        <div className="text-4xl font-montserrat font-semibold mb-2 text-center">
-          <p className="flex items-center justify-center">
-            Holidaze
-            <div className="h-8 w-8 bg-yellowMain border-2 border-blackMain rounded-full ml-2" />
-          </p>
+        <div className="logo-text">
+          <div className="center-logo">
+            SnapBook
+            <div className="logo-circle-dot"></div>
+          </div>
         </div>
 
-        <p className="text-lg text-gray-second mb-4 text-center">
+        <p className="under-text">
           Create your account and start booking.
         </p>
 
@@ -117,7 +117,7 @@ function Register() {
 
         {/* Form inputs */}
         <div className="content-center space-y-4">
-          {[
+          {[ 
             { label: 'Name', name: 'name', type: 'text', required: true },
             { label: 'Email', name: 'email', type: 'email', required: true },
             { label: 'Password', name: 'password', type: 'password', required: true },

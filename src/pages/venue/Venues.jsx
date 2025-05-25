@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { getAllVenues } from "../components/api";
-import MiniCarousel from "../components/MiniCarousel";
+import { getAllVenues,searchVenues  } from "../../components/api";
+import MiniCarousel from "../../components/MiniCarousel";
 import { FaStar } from "react-icons/fa";
 
 export default function Venues({
@@ -22,10 +22,24 @@ export default function Venues({
   const [error, setError]             = useState("");
 
   /* ───────── fetch / set venues ───────── */
-  useEffect(() => {
-    if (venuesProp) {
-      setVenues(venuesProp);
+useEffect(() => {
+  if (venuesProp) {
+    setVenues(venuesProp);
+  } else {
+    if (searchTerm) {
+      // Use API search endpoint when searchTerm exists
+      searchVenues(searchTerm)
+        .then((data) =>
+          setVenues(
+            data.data.map((v) => ({
+              ...v,
+              media: v.media || [],
+            }))
+          )
+        )
+        .catch((err) => setError(err.message));
     } else {
+      // Fetch all venues when no searchTerm
       getAllVenues()
         .then((data) =>
           setVenues(
@@ -37,7 +51,9 @@ export default function Venues({
         )
         .catch((err) => setError(err.message));
     }
-  }, [venuesProp]);
+  }
+}, [venuesProp, searchTerm]);
+
 
   /* ───────── helpers ───────── */
   const handleLoadMore = () =>
@@ -45,31 +61,34 @@ export default function Venues({
   const handleLoadLess = () =>
     setVisibleCount((c) => Math.max(c - 10, 10));
 
-  /* ───────── filter search + meta ───────── */
-  const filteredVenues = venues
-    .filter((v) =>
-      searchTerm === ""
-        ? true
-        : v.name.toLowerCase().includes(searchTerm) ||
-          v.description.toLowerCase().includes(searchTerm)
-    )
+const normalize = (str) => str?.toLowerCase().trim().replace(/\s+/g, " ") || "";
+
+const filteredVenues = venues.filter((v) => {
+  const searchLower = normalize(searchTerm);
+  const nameMatch = normalize(v.name).includes(searchLower);
+  const descriptionMatch = normalize(v.description).includes(searchLower);
+  return searchLower === "" || nameMatch || descriptionMatch;
+})
+
+
+
     .filter((v) => {
       if (!selectedFilters?.length) return true;
       return selectedFilters.every((f) => v.meta[f] === true);
     });
 
-  /* decide which list slice to show */
+
   const listToShow = venuesProp
     ? filteredVenues
     : filteredVenues.slice(0, visibleCount);
 
-  /* ───────── render ───────── */
+
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
     <div className="mb-36 pb-9">
       <div className="max-w-5xl mx-auto py-8 flex justify-center">
-        <ul className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-4">
           {listToShow.map((venue) => (
             <li
               key={venue.id}

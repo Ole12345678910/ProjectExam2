@@ -125,11 +125,27 @@ export const loginUser = async (email, password) => {
 
 
 
-export const getProfileWithDetails = async (username) => {
+export const getProfile = async (username) => {
   const response = await get(`${BASE_URL}/profiles/${username}?_venues=true&_bookings=true`);
   return response.data;
 };
 
+export const getProfileWithDetails = async (username) => {
+  const profileRes = await get(`${BASE_URL}/profiles/${username}?_venues=true`);
+  const profile = profileRes.data;
+
+  const venuesWithBookings = await Promise.all(
+    (profile.venues || []).map(async (venue) => {
+const res = await get(`${BASE_URL}/venues/${venue.id}?_bookings=true&_customer=true`);
+      return res.data;
+    })
+  );
+
+  return {
+    ...profile,
+    venues: venuesWithBookings,
+  };
+};
 
 
 export async function registerUser(userData) {

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { getProfileWithDetails, updateProfile } from "../components/api";
+import { getProfile, updateProfile } from "../../components/api";
 import { FiEdit } from "react-icons/fi";
+import { daysBetween } from "../../utils/dateUtils";
 
 function Modal({ children, onClose }) {
   useEffect(() => {
@@ -24,14 +25,6 @@ function Modal({ children, onClose }) {
   );
 }
 
-function calculateDaysInclusive(dateFrom, dateTo) {
-  const from = new Date(dateFrom);
-  const to = new Date(dateTo);
-  const msPerDay = 1000 * 60 * 60 * 24;
-  return Math.floor((to - from) / msPerDay) + 1;
-}
-
-
 export default function DetailProfile() {
   const { profileName } = useParams();
   const navigate = useNavigate();
@@ -39,21 +32,17 @@ export default function DetailProfile() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // form state
   const [bio, setBio] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [bannerUrl, setBannerUrl] = useState("");
   const [venueManager, setVenueMgr] = useState(false);
-
-  // overlay control
   const [overlayOpen, setOverlayOpen] = useState(false);
 
-  /* fetch profile */
   useEffect(() => {
     (async () => {
       try {
         const token = localStorage.getItem("token");
-        const data = await getProfileWithDetails(profileName, token);
+        const data = await getProfile(profileName, token);
 
         setProfile(data);
         setBio(data.bio);
@@ -68,7 +57,6 @@ export default function DetailProfile() {
     })();
   }, [profileName]);
 
-  /* submit profile updates */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -82,11 +70,9 @@ export default function DetailProfile() {
     try {
       await updateProfile(profileName, updated);
 
-      // sync localStorage
       const userData = JSON.parse(localStorage.getItem("user") || "{}");
       userData.venueManager = venueManager;
       localStorage.setItem("user", JSON.stringify(userData));
-
 
       setProfile((prev) => ({
         ...prev,
@@ -94,13 +80,11 @@ export default function DetailProfile() {
       }));
 
       setOverlayOpen(false);
-
     } catch (err) {
       console.error("Error updating profile:", err);
     }
   };
 
-  /* ───────── render ───────── */
   if (loading) return <p>Loading…</p>;
   if (!profile) return <p>Profile not found.</p>;
 
@@ -120,20 +104,14 @@ export default function DetailProfile() {
           <img
             src={profile.avatar.url}
             alt={profile.avatar.alt || "Avatar"}
-            className="
-              absolute left-1/2 -translate-x-1/2
-              bottom-0 translate-y-1/2
-              w-32 h-32 rounded-full object-cover
-              ring-4 ring-yellowMain
-            "
+            className="absolute left-1/2 -translate-x-1/2 bottom-0 translate-y-1/2 logo-size rounded-full object-cover ring-4 ring-yellowMain"
           />
         )}
 
-        {/* bottom-left pencil */}
         <button
           onClick={() => setOverlayOpen(true)}
           aria-label="Edit profile"
-          className="absolute left-1/2  -translate-x-[85px] bottom-0 translate-y-[190%] p-2"
+          className="absolute left-1/2 -translate-x-[85px] bottom-0 translate-y-[190%] p-2"
         >
           <FiEdit className="h-7 w-7" />
         </button>
@@ -169,7 +147,7 @@ export default function DetailProfile() {
         {profile.bookings.map((b) => {
           const venue = b.venue;
           const mainImage = venue?.media?.[0];
-          const days = calculateDaysInclusive(b.dateFrom, b.dateTo);
+          const days = daysBetween(b.dateFrom, b.dateTo);
           const totalPrice = venue ? venue.price * days : "N/A";
 
           return (
@@ -181,7 +159,6 @@ export default function DetailProfile() {
                 to={`/venues/${venue?.id}`}
                 className="block no-underline text-inherit"
               >
-                {/* top banner image */}
                 {mainImage && (
                   <img
                     src={mainImage.url}
@@ -190,9 +167,7 @@ export default function DetailProfile() {
                   />
                 )}
 
-                {/* booking details */}
                 <div className="p-4 flex flex-col gap-1">
-                  {/* first line — name left, dates right */}
                   <div className="flex justify-between items-center">
                     <span className="font-semibold flex-1 min-w-0 truncate">
                       {venue?.name || "Venue"}
@@ -202,7 +177,6 @@ export default function DetailProfile() {
                       To&nbsp;{new Date(b.dateTo).toLocaleDateString()}
                     </span>
                   </div>
-                  {/* second line */}
                   <span>Days booked: {days}</span>
                   <span>Total Price: ${totalPrice}</span>
                 </div>
@@ -212,7 +186,7 @@ export default function DetailProfile() {
         })}
       </ul>
 
-      {/* ------------- EDIT OVERLAY ------------- */}
+      {/* EDIT OVERLAY */}
       {overlayOpen && (
         <Modal onClose={() => setOverlayOpen(false)}>
           <h2 className="text-xl mb-4">Edit Profile</h2>
@@ -242,7 +216,7 @@ export default function DetailProfile() {
                 type="text"
                 value={bannerUrl}
                 onChange={(e) => setBannerUrl(e.target.value)}
-                className="input-styling "
+                className="input-styling"
               />
             </div>
 

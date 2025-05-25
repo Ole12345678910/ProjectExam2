@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { loginUser, getSingleProfile } from "../components/api";
+import { loginUser, getSingleProfile } from "../../components/api";
 import { useNavigate, Link } from "react-router-dom";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 
@@ -29,9 +29,7 @@ function LoginPage() {
         "user",
         JSON.stringify({
           name: profile.name,
-
           avatar: profile.avatar,
-
           venueManager: profile.venueManager,
         })
       );
@@ -45,13 +43,17 @@ function LoginPage() {
 
   return (
     <form
-      className="flex justify-center items-center min-h-screen bg-gray-100"
+      className="auth-container"
       onSubmit={handleSubmit}
     >
-      <div className="w-full max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-md">
+      <div className="auth-form">
         {/* Header with close and auth buttons */}
-        <div className="flex justify-between items-center mb-4">
-          <IoMdCloseCircleOutline size={24} />
+        <div className="top-line-container">
+          <IoMdCloseCircleOutline
+            size={24}
+            className="cursor-pointer"
+            onClick={() => navigate(-1)} // Navigate back on click
+          />
           <div>
             <Link className="auth-button" to="/login">
               Log in
@@ -63,14 +65,14 @@ function LoginPage() {
         </div>
 
         {/* Logo & title */}
-        <div className="text-4xl font-montserrat font-semibold mb-2 text-center">
-          <p className="flex items-center justify-center">
-            Holidaze
-            <div className="h-8 w-8 bg-yellowMain border-2 border-blackMain rounded-full ml-2"></div>
-          </p>
+        <div className="logo-text">
+          <div className="center-logo">
+            SnapBook
+            <div className="logo-circle-dot"></div>
+          </div>
         </div>
 
-        <p className="text-lg text-gray-second mb-4 text-center">
+        <p className="under-text">
           Your time, perfectly booked.
         </p>
 
@@ -86,7 +88,7 @@ function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="input-styling mt-1 mx-auto "
+              className="input-styling mt-1 mx-auto"
               placeholder="Enter your email"
             />
           </label>
@@ -111,7 +113,7 @@ function LoginPage() {
         </button>
 
         <div className="mt-4 text-center">
-          <Link to="/Register" className="text-blue-600 hover:underline">
+          <Link to="/Register" className="register-line">
             Don’t have an account? Register
           </Link>
         </div>
