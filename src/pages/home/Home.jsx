@@ -72,7 +72,7 @@ const Home = () => {
   return (
     <div>
       <MainCarousel />
-      <div className="bg-white max-w-5xl mx-auto p-6 -mt-20 relative z-10 rounded-t-3xl flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="introbanner">
         <div className="flex-1 pr-6">
           <h2 className="font-Montserrat text-3xl">
             Stay better. Book easier.
