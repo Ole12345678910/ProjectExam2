@@ -24,8 +24,9 @@ body {
 }
 
 .main-carousel .control-dots {
-  @apply absolute top-[17rem]; 
+  @apply md:absolute md:top-[17rem];
 }
+
 
 .input-styling {
   @apply border-2 border-blackMain rounded-lg p-2 placeholder-inputColor focus:outline-none focus:ring-1 focus:ring-black;
@@ -145,4 +146,306 @@ body {
 
 .animate-fade-in-out {
   animation: fade-in-out 3s ease-in-out forwards;
+}
+
+
+
+
+
+
+
+
+/* header.css */
+/* src/styles/header.css */
+
+.header {
+  @apply flex items-center justify-between p-4 shadow-md sticky top-0 bg-white z-50;
+}
+
+.logo {
+  @apply text-xl font-montserrat font-semibold flex items-center mr-2;
+}
+
+.logo-dot {
+  @apply ml-1 h-4 w-4 bg-yellowMain border-2 border-black rounded-full;
+}
+
+.search-form {
+  @apply relative w-full max-w-md;
+}
+
+.search-icon {
+  @apply absolute left-3 top-1/2 -translate-y-1/2 text-gray-500;
+}
+
+.search-input {
+  @apply w-full pl-10 pr-4 py-1 border border-gray-300 rounded-full focus:outline-none focus:ring-1 focus:ring-black;
+}
+
+.auth-wrapper {
+  @apply ml-2 hidden md:flex items-center space-x-6;
+}
+
+.auth-button {
+  @apply bg-yellowMain px-5 py-2 rounded-full text-sm font-medium;
+}
+
+.hamburger {
+  @apply md:hidden p-2;
+}
+
+.sidebar-overlay {
+  @apply fixed inset-0 z-50 flex pointer-events-none;
+}
+
+.sidebar-backdrop {
+  @apply absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-300;
+}
+
+.sidebar {
+  @apply absolute right-0 top-0 h-full w-80 bg-white pt-16 px-6 pb-6 transform transition-transform duration-300 ease-out;
+}
+
+.close-button {
+  @apply absolute top-4 right-4;
+}
+
+.sidebar-form {
+  @apply relative w-full max-w-md;
+}
+
+.sidebar-search-icon {
+  @apply absolute left-3 top-1/2 -translate-y-1/2 text-gray-500;
+}
+
+.sidebar-search-input {
+  @apply w-full pl-10 pr-4 py-1 border border-gray-300 rounded-full focus:outline-none focus:ring-1 focus:ring-black;
+}
+
+.sidebar-links {
+  @apply m-4;
+}
+
+.sidebar-link {
+  @apply flex items-center gap-2;
+}
+
+.sidebar-avatar {
+  @apply w-8 h-8 rounded-full object-cover;
+}
+
+.sidebar-logout {
+  @apply bg-yellowMain px-4 py-2 rounded-full w-full;
+}
+
+
+
+
+
+
+/* src/styles/footer.css */
+.footer-container {
+  @apply flex flex-col bg-greySecond px-4 py-6;
+}
+
+.footer-logo {
+  @apply text-xl font-montserrat font-semibold mb-4;
+}
+
+.logo-link {
+  @apply flex items-center;
+}
+
+.logo-dot {
+  @apply h-[1rem] w-[1rem] bg-yellowMain border-2 border-black rounded-full ml-1;
+}
+
+.footer-about {
+  @apply mb-6 max-w-2xl;
+}
+
+.about-heading {
+  @apply font-semibold mb-1;
+}
+
+.about-text {
+  @apply text-sm text-gray-700;
+}
+
+.footer-column-heading {
+  @apply font-semibold mb-1;
+}
+
+.footer-logo-img {
+  @apply w-32 h-32 m-3;
+}
+
+.footer-bottom {
+  @apply bg-yellowMain text-center text-[8px] py-1;
+}
+
+.social-links{
+  @apply  inline-flex items-center gap-1 max-w-max;
+}
+
+.footer-sections {
+  @apply flex flex-col md:flex-row md:items-start md:justify-between gap-6;
+}
+
+
+/*detailsVennue*/
+
+
+/* DetailVenues.css*/
+
+.vennueContainer{
+  @apply flex flex-col gap-8 max-w-5xl mx-auto mt-4 p-4 pb-24 justify-center;
+}
+
+.venue-owner-bar{
+  @apply mt-4 bg-greySecond rounded-2xl flex shadow-md items-center gap-4 p-4 rounded;
+}
+
+.info-text{
+  @apply flex flex-col p-4;
+}
+
+.footer-book-bar{
+  @apply fixed bottom-0 left-0 w-full bg-white p-4 border-t border-gray-300;
+}
+
+
+/*Home.jsx*/
+
+.introbanner {
+  @apply bg-white max-w-5xl mx-auto px-6 py-3 -mt-20 relative z-10 rounded-t-3xl flex justify-between items-center;
+}
+
+
+.filter-arrow{
+  @apply absolute z-10 top-1/2 transform -translate-y-1/2 bg-yellowMain border rounded-full p-2;
+}
+
+
+
+
+
+
+
+
+/*Login.jsx/Register.jsx*/
+
+.register-line{
+  @apply text-blue-600 hover:underline;
+}
+
+.logo-circle-dot{
+  @apply h-8 w-8 bg-yellowMain border-2 border-blackMain rounded-full ml-2;
+}
+
+.logo-text{
+  @apply text-4xl font-montserrat font-semibold mb-2 text-center;
+}
+
+.center-logo{
+  @apply flex items-center justify-center;
+}
+
+.under-text{
+  @apply text-lg mb-4 text-center;
+}
+
+.auth-form{
+  @apply w-full max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-md;
+}
+
+.auth-container{
+  @apply flex justify-center items-center min-h-screen bg-greySecond;
+}
+
+
+.top-line-container{
+  @apply flex justify-between items-center mb-4;
+}
+
+
+/*VenueWithBookins.jsx*/
+
+@layer components {
+  .venue-card {
+    @apply border-b shadow-md rounded-xl pb-6 bg-white flex flex-col h-full overflow-hidden w-[18rem] mx-auto;
+  }
+
+  /* fjernet 'group' fra @apply her */
+  .venue-details {
+    @apply block p-2 flex flex-col flex-grow;
+  }
+
+  .venue-name {
+    @apply text-xl font-semibold break-words;
+  }
+
+  .venue-description {
+    @apply text-gray-600 mt-1 break-words line-clamp-3;
+  }
+
+  .rating-star-filled {
+    @apply h-4 w-4 text-yellow-400;
+  }
+
+  .rating-star-empty {
+    @apply h-4 w-4 text-gray-300;
+  }
+
+  .rating-text {
+    @apply ml-1 text-sm text-gray-500;
+  }
+
+  .price-text {
+    @apply mt-2 text-lg font-bold;
+  }
+
+  .max-guests-text {
+    @apply text-sm text-gray-500;
+  }
+
+  .btn-edit {
+    @apply w-full px-3 py-1 bg-yellowMain text-white rounded;
+  }
+
+  .btn-delete {
+    @apply w-full px-3 py-1 bg-red-500 text-white rounded;
+  }
+
+  .bookings-container {
+    @apply mt-4 p-3 bg-gray-50 rounded-md max-h-48 overflow-auto;
+  }
+
+  .bookings-title {
+    @apply font-semibold mb-2;
+  }
+
+  .booking-list {
+    @apply space-y-2 text-sm text-gray-700;
+  }
+
+  .booking-item {
+    @apply border-b pb-1;
+  }
+
+  .booking-avatar {
+    @apply w-8 h-8 rounded-full object-cover;
+  }
+
+  .booking-avatar-placeholder {
+    @apply w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-xs text-white;
+  }
+
+  .booking-customer-name {
+    @apply ml-2;
+  }
+
+  .no-bookings-text {
+    @apply mt-4 text-sm italic text-gray-400;
+  }
 }

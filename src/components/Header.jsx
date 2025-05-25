@@ -6,23 +6,23 @@ function Header() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Search state (sync with ?search=…)
   const params = new URLSearchParams(location.search);
   const [searchTerm, setSearchTerm] = useState(params.get("search") || "");
   useEffect(() => {
     setSearchTerm(params.get("search") || "");
   }, [location.search]);
+
   const onSubmit = (e) => {
     e.preventDefault();
     const q = searchTerm.trim();
     navigate(q ? `/venues?search=${encodeURIComponent(q)}` : "/venues");
   };
 
-  // Auth state
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState("");
   const [isVenueManager, setIsVenueManager] = useState(false);
   const [userAvatar, setUserAvatar] = useState(null);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -46,42 +46,32 @@ function Header() {
     navigate("/login");
   };
 
-  // Mobile menu
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <>
-      <header className="flex items-center justify-between p-4 shadow-md sticky top-0 bg-white z-50">
-        {/* Logo */}
-        <Link to="/" className="text-xl font-semibold flex items-center">
+      <header className="header">
+        <Link to="/" className="logo">
           Holidaze
-          <div className="ml-1 h-4 w-4 bg-yellowMain border-2 border-black rounded-full" />
+          <div className="logo-dot" />
         </Link>
 
-        {/* Midten: Søkefelt */}
         <div className="hidden md:flex flex-1 justify-center">
-          <form onSubmit={onSubmit} className="relative w-full max-w-md">
-            {/* Gjør ikonet til en knapp som submitter form */}
-            <button
-              type="submit"
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
-              aria-label="Search"
-            >
+          <form onSubmit={onSubmit} className="search-form">
+            <button type="submit" className="search-icon" aria-label="Search">
               <PiMagnifyingGlass size={18} />
             </button>
-
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search for Venues…"
-              className="w-full pl-10 pr-4 py-1 border border-gray-300 rounded-full focus:outline-none focus:ring-1 focus:ring-black"
+              className="search-input"
             />
           </form>
         </div>
 
-        {/* Høyre: Auth knapper */}
-        <div className="hidden md:flex items-center space-x-6">
+        <div className="auth-wrapper">
           {!isLoggedIn ? (
             <Link to="/login" className="auth-button">
               Log in
@@ -89,32 +79,28 @@ function Header() {
           ) : (
             <>
               {isVenueManager && (
-                <Link to="/dashboard" className="flex items-center gap-1">
+                <Link to="/dashboard" className="sidebar-link">
                   Dashboard <PiChartBar />
                 </Link>
               )}
-              <Link to={`/profile/${userName}`} className="flex items-center">
+              <Link to={`/profile/${userName}`} className="sidebar-link">
                 {userAvatar && (
                   <img
                     src={userAvatar}
                     alt="Avatar"
-                    className="w-8 h-8 rounded-full object-cover hover:ring-2 hover:ring-yellowMain"
+                    className="sidebar-avatar hover:ring-2 hover:ring-yellowMain"
                   />
                 )}
               </Link>
-              <button
-                onClick={handleLogout}
-                className="bg-yellowMain px-5 py-2 rounded-full text-sm font-medium"
-              >
+              <button onClick={handleLogout} className="auth-button">
                 Log out
               </button>
             </>
           )}
         </div>
 
-        {/* Mobil hamburger */}
         <button
-          className="md:hidden p-2"
+          className="hamburger"
           onClick={() => setMenuOpen(true)}
           aria-label="Open menu"
         >
@@ -122,50 +108,45 @@ function Header() {
         </button>
       </header>
 
-      {/* Mobile sidebar overlay */}
-      <div className={`fixed inset-0 z-50 flex pointer-events-none`}>
-        {/* Backdrop */}
+      <div className="sidebar-overlay">
         <div
-          className={`absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${
+          className={`sidebar-backdrop ${
             menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0"
           }`}
           onClick={() => setMenuOpen(false)}
         />
 
-        {/* Sidebar sliding from right */}
         <div
-          className={`absolute right-0 top-0 h-full w-80 bg-white pt-16 px-6 pb-6 transform transition-transform duration-300 ease-out ${
+          className={`sidebar ${
             menuOpen ? "translate-x-0 pointer-events-auto" : "translate-x-full"
           }`}
         >
           <button
-            className="absolute top-4 right-4"
+            className="close-button"
             onClick={() => setMenuOpen(false)}
             aria-label="Close menu"
           >
             <PiX size={24} />
           </button>
 
-          <form onSubmit={onSubmit} className="relative w-full max-w-md">
-            {/* Gjør ikonet til en knapp som submitter form */}
+          <form onSubmit={onSubmit} className="sidebar-form">
             <button
               type="submit"
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+              className="sidebar-search-icon"
               aria-label="Search"
             >
               <PiMagnifyingGlass size={18} />
             </button>
-
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search for Venues…"
-              className="w-full pl-10 pr-4 py-1 border border-gray-300 rounded-full focus:outline-none focus:ring-1 focus:ring-black"
+              className="sidebar-search-input"
             />
           </form>
 
-          <ul className="space-y-4">
+          <ul className="sidebar-links">
             {!isLoggedIn && (
               <li>
                 <Link
@@ -185,10 +166,9 @@ function Header() {
                     <Link
                       to="/dashboard"
                       onClick={() => setMenuOpen(false)}
-                      className="flex items-center gap-2"
+                      className="sidebar-link"
                     >
-                      Dashboard
-                      <PiChartBar />
+                      Dashboard <PiChartBar />
                     </Link>
                   </li>
                 )}
@@ -197,12 +177,13 @@ function Header() {
                   <Link
                     to={`/profile/${userName}`}
                     onClick={() => setMenuOpen(false)}
+                    className="flex items-center gap-2"
                   >
                     {userAvatar && (
                       <img
                         src={userAvatar}
                         alt="Avatar"
-                        className="w-8 h-8 rounded-full object-cover"
+                        className="sidebar-avatar"
                       />
                     )}
                   </Link>
@@ -214,7 +195,7 @@ function Header() {
                       handleLogout();
                       setMenuOpen(false);
                     }}
-                    className="bg-yellowMain px-4 py-2 rounded-full w-full"
+                    className="sidebar-logout"
                   >
                     Log out
                   </button>

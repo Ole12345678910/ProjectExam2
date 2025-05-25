@@ -1,0 +1,49 @@
+projectexam2/
+│
+├── dist/                   # Build output (ignored by source control)
+├── node_modules/           # Dependencies (auto-generated)
+├── public/                 # Static files
+│   └── _redirects          # Netlify redirects for SPA routing
+│
+├── src/                    # Main source code folder
+│   ├── assets/             # Static assets like images, fonts, etc.
+│
+│   ├── components/         # Reusable UI components
+│   │   ├── Footer.jsx
+│   │   ├── Header.jsx
+│   │   ├── MainCarousel.jsx
+│   │   ├── MiniCarousel.jsx
+│   │   ├── VenueForm.jsx
+│   │
+│   ├── hooks/              # Custom React hooks
+│   │   ├── useDefaultDateRange.js
+│   │   ├── useBooking.js
+│   │   ├── useBookedDates.js
+│   │   ├── useProfile.js
+│   │   ├── useUser.js
+│   │   └── useVenue.js
+│   │
+│   ├── pages/              # Route-level components
+│   │   ├── Dashboard.jsx
+│   │   ├── DetailBooking.jsx
+│   │   ├── DetailsProfiles.jsx
+│   │   ├── DetailsVenues.jsx
+│   │   ├── Home.jsx
+│   │   ├── Login.jsx
+│   │   ├── Logout.jsx
+│   │   ├── Register.jsx
+│   │   └── Venues.jsx
+│   │
+│   ├── utils/              # Utility functions and helpers
+│   │   ├── dateUtils.js
+│   │   └── venueHelpers.js
+│   │
+│   ├── api.js              # API configuration or functions
+│   ├── App.jsx             # Root React component
+│   ├── index.css           # Global styles
+│   ├── main.jsx            # App entry point
+│
+├── .env                    # Environment variables
+├── .gitignore              # Files and folders to ignore in Git
+├── eslint.config.js        # Linting rules (if using ESLint)
+├── index.html              # HTML template

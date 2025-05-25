@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
 import { PiChartBar } from "react-icons/pi";
 
-import Venues from "./Venues";
-import VenueForm from "../components/VenueForm";
-
-import { useProfile } from "../hooks/useProfile";
+import Venues from "../venue/Venues";
+import VenueForm from "../../components/VenueForm";
+import VenueBookings from "../../components/userBookings";
+import { useProfile } from "../../hooks/useProfile";
 import {
   emptyVenueForm,
   normalizeVenueData,
   buildVenuePayload,
-} from "../utils/venueHelpers";
-import { createVenue, deleteVenue, updateVenue } from "../components/api";
+} from "../../utils/venueHelpers";
+import { createVenue, deleteVenue, updateVenue } from "../../components/api";
+import { VenueWithBookings } from  "../../components/VenueWithBookings";
+
 
 /* simple overlay with scrollable body */
 function Modal({ children, onClose }) {
@@ -41,10 +43,10 @@ export default function Dashboard() {
   );
 
   /* local state */
-  const [formData, setFormData] = useState(emptyVenueForm); // for create
-  const [editFormData, setEditFormData] = useState(emptyVenueForm); // for edit
+  const [formData, setFormData] = useState(emptyVenueForm); 
+  const [editFormData, setEditFormData] = useState(emptyVenueForm); 
   const [editVenueId, setEditVenueId] = useState(null);
-  const [createOpen, setCreateOpen] = useState(false); // NEW
+  const [createOpen, setCreateOpen] = useState(false); 
   const [submitMsg, setSubmitMsg] = useState("");
 
   /* live clock */
@@ -54,11 +56,10 @@ export default function Dashboard() {
     return () => clearInterval(id);
   }, []);
 
-  /* helper that formats in desired TZ */
+
   const formatDateTime = (date) =>
     date.toLocaleString("en-GB", {
-      // pick the locale you like
-      timeZone: "Europe/Oslo", // ← change to the zone you want
+      timeZone: "Europe/Oslo", 
       weekday: "short",
       year: "numeric",
       month: "short",
@@ -133,26 +134,26 @@ export default function Dashboard() {
       {submitMsg && <p>{submitMsg}</p>}
 
       {/* your venues */}
-      <section  className="max-w-5xl mx-auto">
-        <h2 className="ml-6 text-xl my-2">Your Venues</h2>
-        {venues.length === 0 ? (
-          <p>No venues yet</p>
-        ) : (
-          <Venues
-            venuesProp={venues}
-            isEditable
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        )}
-      </section>
+      <h2 className="ml-6 text-xl my-2">Your Venues</h2>
+    <section className="max-w-5xl mx-auto py-8 flex justify-center">
+      {venues.length === 0 ? (
+        <p>No venues yet</p>
+      ) : (
+        <ul className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {venues.map((venue) => (
+            <VenueWithBookings
+              key={venue.id}
+              venue={venue}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          ))}
+        </ul>
+      )}
+    </section>
 
-      {/* button to open CREATE modal */}
-      <section className="mt-6">
-        <button onClick={() => setCreateOpen(true)} className="standard-button">
-          Make a Venue
-        </button>
-      </section>
+
+      
 
       {/* EDIT overlay */}
       {editVenueId && (
@@ -181,6 +182,8 @@ export default function Dashboard() {
           />
         </Modal>
       )}
+
+
     </div>
   );
 }
