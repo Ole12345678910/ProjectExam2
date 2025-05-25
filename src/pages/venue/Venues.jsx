@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { getAllVenues,searchVenues  } from "../../components/api";
+import { getAllVenues, searchVenues } from "../../components/api";
 import MiniCarousel from "../../components/MiniCarousel";
 import { FaStar } from "react-icons/fa";
 
@@ -13,75 +13,71 @@ export default function Venues({
 }) {
   /* ───────── search param ───────── */
   const { search } = useLocation();
-  const params      = new URLSearchParams(search);
-  const searchTerm  = params.get("search")?.toLowerCase().trim() || "";
+  const params = new URLSearchParams(search);
+  const searchTerm = params.get("search")?.toLowerCase().trim() || "";
 
   /* ───────── state ───────── */
-  const [venues, setVenues]           = useState([]);
+  const [venues, setVenues] = useState([]);
   const [visibleCount, setVisibleCount] = useState(10);
-  const [error, setError]             = useState("");
+  const [error, setError] = useState("");
 
   /* ───────── fetch / set venues ───────── */
-useEffect(() => {
-  if (venuesProp) {
-    setVenues(venuesProp);
-  } else {
-    if (searchTerm) {
-      // Use API search endpoint when searchTerm exists
-      searchVenues(searchTerm)
-        .then((data) =>
-          setVenues(
-            data.data.map((v) => ({
-              ...v,
-              media: v.media || [],
-            }))
-          )
-        )
-        .catch((err) => setError(err.message));
+  useEffect(() => {
+    if (venuesProp) {
+      setVenues(venuesProp);
     } else {
-      // Fetch all venues when no searchTerm
-      getAllVenues()
-        .then((data) =>
-          setVenues(
-            data.data.map((v) => ({
-              ...v,
-              media: v.media || [],
-            }))
+      if (searchTerm) {
+        // Use API search endpoint when searchTerm exists
+        searchVenues(searchTerm)
+          .then((data) =>
+            setVenues(
+              data.data.map((v) => ({
+                ...v,
+                media: v.media || [],
+              }))
+            )
           )
-        )
-        .catch((err) => setError(err.message));
+          .catch((err) => setError(err.message));
+      } else {
+        // Fetch all venues when no searchTerm
+        getAllVenues()
+          .then((data) =>
+            setVenues(
+              data.data.map((v) => ({
+                ...v,
+                media: v.media || [],
+              }))
+            )
+          )
+          .catch((err) => setError(err.message));
+      }
     }
-  }
-}, [venuesProp, searchTerm]);
-
+  }, [venuesProp, searchTerm]);
 
   /* ───────── helpers ───────── */
   const handleLoadMore = () =>
     setVisibleCount((c) => Math.min(c + 10, venues.length));
-  const handleLoadLess = () =>
-    setVisibleCount((c) => Math.max(c - 10, 10));
+  const handleLoadLess = () => setVisibleCount((c) => Math.max(c - 10, 10));
 
-const normalize = (str) => str?.toLowerCase().trim().replace(/\s+/g, " ") || "";
+  const normalize = (str) =>
+    str?.toLowerCase().trim().replace(/\s+/g, " ") || "";
 
-const filteredVenues = venues.filter((v) => {
-  const searchLower = normalize(searchTerm);
-  const nameMatch = normalize(v.name).includes(searchLower);
-  const descriptionMatch = normalize(v.description).includes(searchLower);
-  return searchLower === "" || nameMatch || descriptionMatch;
-})
-
-
+  const filteredVenues = venues
+    .filter((v) => {
+      const searchLower = normalize(searchTerm);
+      const nameMatch = normalize(v.name).includes(searchLower);
+      const descriptionMatch = normalize(v.description).includes(searchLower);
+      return searchLower === "" || nameMatch || descriptionMatch;
+    })
 
     .filter((v) => {
       if (!selectedFilters?.length) return true;
       return selectedFilters.every((f) => v.meta[f] === true);
     });
 
-
   const listToShow = venuesProp
     ? filteredVenues
     : filteredVenues.slice(0, visibleCount);
-
 
   if (error) return <p className="text-red-500">{error}</p>;
 

@@ -15,14 +15,11 @@ function LoginPage() {
 
     try {
       const userData = await loginUser(email, password);
-      console.log("Logged in user:", userData);
-
       if (!userData.accessToken || !userData.name) {
-        throw new Error("No access token or user data received");
+        throw new Error("Ingen tilgangstoken eller brukerinformasjon mottatt");
       }
 
       const { data: profile } = await getSingleProfile(userData.name);
-      console.log("Fetched profile after login:", profile);
 
       localStorage.setItem("token", userData.accessToken);
       localStorage.setItem(
@@ -36,23 +33,24 @@ function LoginPage() {
 
       navigate(`/profile/${profile.name}`);
     } catch (err) {
-      console.error("Login error:", err);
-      setError(err.message || "Something went wrong");
+      if (err.status === 401) {
+        setError("Email or password is wrong.");
+      } else if (err.message) {
+        setError(err.message);
+      } else {
+        setError("Something went wrong, try again later.");
+      }
     }
   }
 
   return (
-    <form
-      className="auth-container"
-      onSubmit={handleSubmit}
-    >
+    <form className="auth-container" onSubmit={handleSubmit}>
       <div className="auth-form">
-        {/* Header with close and auth buttons */}
         <div className="top-line-container">
           <IoMdCloseCircleOutline
             size={24}
             className="cursor-pointer"
-            onClick={() => navigate(-1)} // Navigate back on click
+            onClick={() => navigate(-1)}
           />
           <div>
             <Link className="auth-button" to="/login">
@@ -64,7 +62,6 @@ function LoginPage() {
           </div>
         </div>
 
-        {/* Logo & title */}
         <div className="logo-text">
           <div className="center-logo">
             SnapBook
@@ -72,15 +69,11 @@ function LoginPage() {
           </div>
         </div>
 
-        <p className="under-text">
-          Your time, perfectly booked.
-        </p>
+        <p className="under-text">Your time, perfectly booked.</p>
 
-        {/* Error */}
         {error && <p className="text-red-500 mb-4">{error}</p>}
 
         <div className="content-center">
-          {/* Email */}
           <label className="label-container">
             <p className="input-text">E-mail</p>
             <input
@@ -93,7 +86,6 @@ function LoginPage() {
             />
           </label>
 
-          {/* Password */}
           <label className="label-container">
             <p className="input-text">Password</p>
             <input
@@ -107,7 +99,6 @@ function LoginPage() {
           </label>
         </div>
 
-        {/* Submit & register */}
         <button type="submit" className="standard-button">
           Login
         </button>
