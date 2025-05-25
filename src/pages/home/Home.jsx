@@ -72,14 +72,15 @@ const Home = () => {
   return (
     <div>
       <MainCarousel />
-      <div className="bg-white max-w-5xl mx-auto px-4 md:-mt-20 mt-0 relative z-10 rounded-t-3xl px-6 py-3 flex flex-col md:flex-row justify-between items-center gap-4">
-
+      <div className="bg-white max-w-5xl mx-auto p-6 -mt-20 relative z-10 rounded-t-3xl flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex-1 pr-6">
-          <h2 className="font-Montserrat text-3xl">Stay better. Book easier.</h2>
+          <h2 className="font-Montserrat text-3xl">
+            Stay better. Book easier.
+          </h2>
           <p>
-            Designed for explorers, built for ease — your next great stay is just a tap away
+            Designed for explorers, built for ease — your next great stay is
+            just a tap away
           </p>
-
 
           <div className="hidden md:block mt-4">
             <strong>
@@ -87,31 +88,35 @@ const Home = () => {
             </strong>
             <ul className="list-disc pl-6 mt-2 space-y-2">
               <li>
-                <span>Curated Stays:</span> Hand-picked quality places — no guesswork, no stress.
+                <span>Curated Stays:</span> Hand-picked quality places — no
+                guesswork, no stress.
               </li>
               <li>
-                <span>Fast & Simple:</span> Book in just a few clicks — built for speed and ease.
+                <span>Fast & Simple:</span> Book in just a few clicks — built
+                for speed and ease.
               </li>
               <li>
-                <span>Pet-Friendly:</span> Easily find places for furry companions.
+                <span>Pet-Friendly:</span> Easily find places for furry
+                companions.
               </li>
               <li>
-                <span>Smart Amenities:</span> Know exactly what you get — Wi-Fi, breakfast, etc.
+                <span>Smart Amenities:</span> Know exactly what you get — Wi-Fi,
+                breakfast, etc.
               </li>
             </ul>
           </div>
         </div>
 
-
         <img
           src={holizaeMark}
           alt="Holidaze logo"
-          className="w-24 md:w-32 h-auto object-contain self-start"
+          width={128}
+          height={64}
+          className="object-contain self-start"
         />
       </div>
 
       <div className="bg-greySecond">
-
         <div className="pt-10 px-6 max-w-6xl mx-auto relative">
           <div className="bg-white rounded-2xl">
             <Slider {...settings}>
