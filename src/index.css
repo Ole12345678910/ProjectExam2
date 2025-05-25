@@ -24,7 +24,7 @@ body {
 }
 
 .main-carousel .control-dots {
-  @apply md:absolute md:top-[17rem];
+  @apply absolute top-[17rem];
 }
 
 
