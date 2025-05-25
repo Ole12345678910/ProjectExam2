@@ -314,7 +314,7 @@ body {
 /*Home.jsx*/
 
 .introbanner {
-  @apply bg-white max-w-5xl mx-auto px-6 py-3 -mt-20 relative z-10 rounded-t-3xl flex justify-between items-center;
+  @apply bg-white max-w-5xl mx-auto p-6 -mt-20 relative z-10 rounded-t-3xl flex flex-col md:flex-row justify-between items-center gap-4;
 }
 
 
