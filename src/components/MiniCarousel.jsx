@@ -58,7 +58,7 @@ const MiniCarousel = ({ media, venueName, venueId }) => {
               className="relative cursor-pointer"
               onClick={handleImageClick} // Navigate on click
             >
-              <div className="w-full h-48 rounded-xl overflow-hidden relative bg-gray-100">
+              <div className="w-full h-48 rounded-xl overflow-hidden relative bg-greyStandard">
                 {/* Show loading spinner while image loads */}
                 {!hasLoaded && !hasError && (
                   <div className="absolute inset-0 flex items-center justify-center z-10">

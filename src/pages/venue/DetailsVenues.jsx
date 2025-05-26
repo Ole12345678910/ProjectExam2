@@ -90,7 +90,7 @@ function DetailVenues() {
     });
 
     if (overlapsMine) {
-      setErrorMsg("Dette overlapper med en av dine egne bookinger."); // Norwegian: overlaps your own booking
+      setErrorMsg("You cant overlap your own bookings.");
       return false;
     }
 
@@ -254,7 +254,7 @@ function DetailVenues() {
         <div className="flex mt-6">
           <div className="w-1/2">
             <h1 className="text-2xl font-bold break-words">{venue.name}</h1>
-            <p className="text-gray-700 mb-2 break-words">
+            <p className="text-greyStandard mb-2 break-words">
               {venue.description}
             </p>
 
@@ -269,7 +269,7 @@ function DetailVenues() {
                   }`}
                 />
               ))}
-              <span className="ml-1 text-sm text-gray-500">
+              <span className="ml-1 text-sm text-greyStandard">
                 ({venue.rating})
               </span>
             </div>
@@ -419,7 +419,7 @@ function DetailVenues() {
           {/*Clear choice */}
           <button
             onClick={resetForm}
-            className="mt-4 bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+            className="mt-4 bg-greyStandard px-4 py-2 rounded"
           >
             Clear Selection
           </button>

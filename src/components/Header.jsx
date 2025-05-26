@@ -185,33 +185,52 @@ function Header() {
 
             {isLoggedIn && (
               <>
-                {isVenueManager && (
+                {isLoggedIn && (
                   <li>
-                    <Link
-                      to="/dashboard"
-                      onClick={() => setMenuOpen(false)}
-                      className="sidebar-link"
-                    >
-                      Dashboard <PiChartBar />
-                    </Link>
+                    {isVenueManager ? (
+                      // Show dashboard + avatar side by side
+                      <div className="flex items-center gap-4">
+                        <Link
+                          to="/dashboard"
+                          onClick={() => setMenuOpen(false)}
+                          className="sidebar-link"
+                        >
+                          Dashboard <PiChartBar />
+                        </Link>
+                        <Link
+                          to={`/profile/${userName}`}
+                          onClick={() => setMenuOpen(false)}
+                          className="sidebar-link"
+                        >
+                          {userAvatar && (
+                            <img
+                              src={userAvatar}
+                              alt="Avatar"
+                              className="sidebar-avatar"
+                            />
+                          )}
+                        </Link>
+                      </div>
+                    ) : (
+                      // Only avatar, centered
+                      <div className="flex justify-center">
+                        <Link
+                          to={`/profile/${userName}`}
+                          onClick={() => setMenuOpen(false)}
+                          className="sidebar-link"
+                        >
+                          {userAvatar && (
+                            <img
+                              src={userAvatar}
+                              alt="Avatar"
+                              className="sidebar-avatar"
+                            />
+                          )}
+                        </Link>
+                      </div>
+                    )}
                   </li>
                 )}
-
-                <li>
-                  <Link
-                    to={`/profile/${userName}`}
-                    onClick={() => setMenuOpen(false)}
-                    className="flex items-center gap-2"
-                  >
-                    {userAvatar && (
-                      <img
-                        src={userAvatar}
-                        alt="Avatar"
-                        className="sidebar-avatar"
-                      />
-                    )}
-                  </Link>
-                </li>
 
                 <li>
                   <button
@@ -234,3 +253,4 @@ function Header() {
 }
 
 export default Header;
+
