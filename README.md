@@ -1,7 +1,14 @@
-# ProjectExam2
-Project Exam 2
+# 🏖️ ProjectExam2 – Holidaze
 
+A venue booking web app built with **React**, styled using **Tailwind CSS**, and powered by **Supabase** authentication.
 
+🌐 **Live Site:** [https://holidaze22.netlify.app/](https://holidaze22.netlify.app/)
+
+---
+
+## 📁 Project Structure
+
+```
 ProjectExam2/
 ├── public/
 │   └── _redirects
@@ -51,84 +58,85 @@ ProjectExam2/
 ├── README.md
 ├── tailwind.config.js
 └── vite.config.js
+```
 
+---
 
-````markdown
-## Installation
+## 📸 Screenshots
 
-To run this project locally on your machine, follow these steps:
+![Screenshot 1](https://github.com/user-attachments/assets/7f814dc8-b7ef-463c-930b-148c1c5c4437)
+![Screenshot 2](https://github.com/user-attachments/assets/9aa672bf-653f-4795-ab8c-158a128141dd)
+![Screenshot 3](https://github.com/user-attachments/assets/1fad3e1b-3fbd-43bc-a3eb-20640d425979)
 
-1. **Clone the repository**
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/Ole12345678910/ProjectExam2.git
 cd ProjectExam2
-````
+```
 
-2. **Install dependencies**
+### 2. Install Dependencies
 
 ```bash
 npm install
 ```
 
-3. **Start the development server**
+### 3. Start the Development Server
 
 ```bash
 npm run dev
 ```
 
-4. **Open the project in your browser**
-   Go to `http://localhost:5173` (or the address shown in your terminal) to view the app.
+### 4. Open in Your Browser
+
+Go to [http://localhost:5173](http://localhost:5173) or the address shown in your terminal.
+
+> ⚠️ Requires [Node.js](https://nodejs.org/) version **16 or higher**
 
 ---
 
-**Note:**
-
-* Make sure you have [Node.js](https://nodejs.org/) installed (version 16 or higher).
-* npm comes bundled with Node.js.
-
-```
----
-
-## 📦 Tech Stack & Libraries Used
-
-This project is built using **React** with a modern toolchain and several helpful libraries:
+## 📦 Tech Stack & Libraries
 
 ### ⚛️ Core
 
-* **React** – Frontend library for building user interfaces
-* **React DOM** – For rendering React in the browser
-* **React Router DOM** – Client-side routing and navigation
+* `react` – UI library
+* `react-dom` – DOM rendering
+* `react-router-dom` – Routing/navigation
 
-### 🧱 UI & Styling
+### 🎨 Styling
 
-* **Tailwind CSS** – Utility-first CSS framework for styling
-* **tailwind-scrollbar-hide** – Tailwind plugin to easily hide scrollbars
-* **PostCSS + Autoprefixer** – CSS processing used by Tailwind
+* `tailwindcss` – Utility-first CSS
+* `tailwind-scrollbar-hide` – Hide scrollbars
+* `postcss` + `autoprefixer` – CSS processing
 
-### 🖼️ Icons & Components
+### 📦 Components & UI
 
-* **React Icons** – Access to icon libraries (e.g., FontAwesome, Material Icons)
-* **React Calendar** – A customizable calendar component
-* **React Responsive Carousel** – Simple responsive image slider
-* **React Slick** & **Slick Carousel** – Another carousel/slider solution
-* **Keen Slider** – Lightweight and flexible slider library
+* `react-icons` – Icon libraries
+* `react-calendar` – Custom calendar
+* `react-responsive-carousel` – Basic image slider
+* `react-slick` + `slick-carousel` – Alternative slider option
+* `keen-slider` – Lightweight, modern slider
 
-  > 💡 Note: This project includes multiple carousel libraries. You might want to use just one based on your final design.
+> 💡 Consider keeping just **one** slider lib to reduce bundle size.
 
-### 🔐 Authentication
+### 🔐 Auth
 
-* **@supabase/auth-helpers-react** – Supabase integration for user login/session management
+* `@supabase/auth-helpers-react` – Supabase login/session support
 
-### ⚙️ Development Tools
+### 🧰 Tooling
 
-* **Vite** – Fast build tool and dev server
-* **@vitejs/plugin-react** – Adds React-specific support to Vite
-* **ESLint** – Linting tool to ensure consistent code style
-* **eslint-plugin-react-hooks** – Helps enforce best practices for React Hooks
-* **dotenv** – Loads environment variables from `.env` files
+* `vite` – Fast dev server and bundler
+* `eslint` – Code linting
+* `@vitejs/plugin-react` – React support for Vite
+* `dotenv` – Environment variables
 
-### 🧠 Type & Lint Support
+### 📘 Type & Lint Support
 
-* **@types/react**, **@types/react-dom** – TypeScript support for better editor autocomplete and safety
-* **@eslint/js**, **eslint-plugin-react-refresh** – Extra ESLint config and features
+* `@types/react`, `@types/react-dom` – TS type hints
+* `eslint-plugin-react-hooks`, `eslint-plugin-react-refresh` – Best practice rules
 
+---
