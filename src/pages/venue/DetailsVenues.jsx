@@ -265,7 +265,7 @@ function DetailVenues() {
                   className={`h-4 w-4 ${
                     i < Math.round(venue.rating)
                       ? "text-yellowMain"
-                      : "text-greySecond"
+                      : "text-gray-300"
                   }`}
                 />
               ))}
