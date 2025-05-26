@@ -1,4 +1,4 @@
-// Returnerer alle datoer mellom start og slutt (inklusive)
+// Returns all dates between start and end (inclusive)
 export function getDatesBetween(start, end) {
   const dates = [];
   let current = new Date(start);
@@ -9,41 +9,38 @@ export function getDatesBetween(start, end) {
   return dates;
 }
 
-// Sjekker om to dato-intervaller overlapper
+// Checks if two date ranges overlap
 export function rangesOverlap(range1Start, range1End, range2Start, range2End) {
   return range1Start <= range2End && range2Start <= range1End;
 }
 
-// Normaliserer dato til midnatt
+// Normalizes a date to midnight (00:00:00)
 export function normalizeDate(date) {
   const d = new Date(date);
   d.setHours(0, 0, 0, 0);
   return d;
 }
 
-// Kalkulerer antall dager mellom to datoer (inkludert)
+// Calculates the number of days between two dates (inclusive)
 export function daysBetween(start, end) {
   const msPerDay = 1000 * 60 * 60 * 24;
   return Math.round((normalizeDate(end) - normalizeDate(start)) / msPerDay) + 1;
 }
 
-
-// Legger til 'days' dager til 'date' og returnerer ny dato
+// Adds 'days' days to 'date' and returns a new date
 export function addDays(date, days) {
   const result = new Date(date);
   result.setDate(result.getDate() + days);
   return result;
 }
 
-/**Hey */
-
-// Returnerer true hvis datoen er lørdag eller søndag
+// Returns true if the date is Saturday or Sunday
 export function isWeekend(date) {
   const day = date.getDay();
   return day === 0 || day === 6;
 }
 
-// Formaterer dato til "YYYY-MM-DD"
+// Formats a date as "YYYY-MM-DD"
 export function formatDateISO(date) {
   const d = new Date(date);
   const year = d.getFullYear();

@@ -1,4 +1,5 @@
 import React from "react";
+
 export default function VenueForm({
   formData,
   setFormData,
@@ -7,6 +8,7 @@ export default function VenueForm({
   showCancel = false,
   onCancel,
 }) {
+  // Handle input and checkbox changes, update form data state accordingly
   const handleChange = (e) => {
     const { name, type, value, checked } = e.target;
     setFormData((p) => ({ ...p, [name]: type === "checkbox" ? checked : value }));
@@ -17,7 +19,7 @@ export default function VenueForm({
       onSubmit={handleSubmit}
       className="flex flex-col gap-3 w-full max-w-md bg-greySecond p-6"
     >
-      {/* ─── simple fields ─── */}
+      {/* ─── Simple text and number input fields ─── */}
       <label className="flex flex-col input-text">
         Venue Name:
         <input
@@ -75,7 +77,7 @@ export default function VenueForm({
         />
       </label>
 
-      {/* ─── amenity checkboxes ─── */}
+      {/* ─── Amenities checkboxes ─── */}
       <fieldset>
         <legend className="input-text mb-1">Amenities:</legend>
         {["wifi", "parking", "breakfast", "pets"].map((key) => (
@@ -86,12 +88,13 @@ export default function VenueForm({
               checked={formData[key]}
               onChange={handleChange}
             />
+            {/* Capitalize the first letter of the amenity */}
             {key.charAt(0).toUpperCase() + key.slice(1)}
           </label>
         ))}
       </fieldset>
 
-      {/* ─── location ─── */}
+      {/* ─── Location input fields ─── */}
       <fieldset className="grid grid-cols-2 gap-2">
         <legend className="mb-1 input-text">Location:</legend>
         {[
@@ -103,6 +106,7 @@ export default function VenueForm({
           ["lat", "Latitude"],
           ["lng", "Longitude"],
         ].map((f) => {
+          // Handle array with custom label or single string
           const [name, label = name] = Array.isArray(f) ? f : [f, f];
           return (
             <label key={name} className="flex flex-col">
@@ -118,7 +122,7 @@ export default function VenueForm({
         })}
       </fieldset>
 
-      {/* ─── images ─── */}
+      {/* ─── Image URLs text area ─── */}
       <label className="flex flex-col input-text">
         Image URLs (space / newline separated):
         <textarea
@@ -130,7 +134,7 @@ export default function VenueForm({
         />
       </label>
 
-      {/* ─── buttons ─── */}
+      {/* ─── Submit and optional Cancel buttons ─── */}
       <div className="mt-2 flex gap-3">
         <button type="submit" className="btn-primary flex-1 standard-button">
           {submitText}
@@ -148,4 +152,3 @@ export default function VenueForm({
     </form>
   );
 }
-

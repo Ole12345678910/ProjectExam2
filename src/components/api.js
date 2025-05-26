@@ -98,8 +98,6 @@ export const deleteVenue = (venueId) => del(`${BASE_URL}/venues/${venueId}`);
 // ✅ Update Venue
 export const updateVenue = (venueId, updatedData) => put(`${BASE_URL}/venues/${venueId}`, updatedData);
 
-
-
 // ✅ Login User
 export const loginUser = async (email, password) => {
   const loginData = { email, password };
@@ -114,7 +112,6 @@ export const loginUser = async (email, password) => {
   try {
     data = await response.json();
   } catch {
-    // Hvis det ikke er gyldig JSON i responsen:
     const error = new Error("Server response is not JSON.");
     error.status = response.status;
     throw error;
@@ -132,7 +129,7 @@ export const loginUser = async (email, password) => {
   return data.data;
 };
 
-
+// ✅ Get User
 export const getProfile = async (username) => {
   const response = await get(`${BASE_URL}/profiles/${username}?_venues=true&_bookings=true`);
   return response.data;
@@ -155,7 +152,7 @@ const res = await get(`${BASE_URL}/venues/${venue.id}?_bookings=true&_customer=t
   };
 };
 
-
+// ✅ Register User
 export async function registerUser(userData) {
   try {
     const response = await fetch(`${AUTH_URL}register`, {  

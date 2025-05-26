@@ -27,41 +27,35 @@ body {
   @apply absolute top-[17rem];
 }
 
-
 .input-styling {
   @apply border-2 border-blackMain rounded-lg p-2 placeholder-inputColor focus:outline-none focus:ring-1 focus:ring-black;
 
-  max-width: 500px;  
-  width: 100%;       
+  max-width: 500px;
+  width: 100%;
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
 
-.input-text{
-  @apply w-full max-w-[480px] text-left mb-1
+.input-text {
+  @apply w-full max-w-[480px] text-left mb-1;
 }
 
-.label-container{
-  @apply flex flex-col mb-6 items-center w-full
+.label-container {
+  @apply flex flex-col mb-6 items-center w-full;
 }
 
 .standard-button {
   @apply px-4 py-2 bg-yellowMain text-base border-2 border-blackMain rounded-xl m-1 max-w-[255px] w-full mx-auto block;
 }
 
-
 .cancel-button {
   @apply px-4 py-2 bg-cancelBtnColor text-base border-2 border-cancelBtnBorder rounded-xl m-1 max-w-[255px] w-full mx-auto block;
 }
 
-.auth-button{
+.auth-button {
   @apply bg-yellowMain px-5 py-2 rounded-full text-sm font-medium;
 }
-
-
-
-
 
 .react-calendar {
   @apply rounded-lg border border-greySecond;
@@ -80,7 +74,6 @@ body {
   @apply grid grid-cols-7;
 }
 
-
 /* Weekdays header */
 .react-calendar__month-view__weekdays {
   @apply grid grid-cols-7 text-center;
@@ -96,7 +89,6 @@ body {
   @apply bg-blue-100 cursor-pointer;
 }
 
-
 /* Navigation arrows */
 .react-calendar__navigation__prev-button,
 .react-calendar__navigation__next-button {
@@ -109,18 +101,16 @@ body {
   @apply hidden;
 }
 
-
 /* Hover & valgt */
 .react-calendar__tile:hover:not(:disabled):not(.react-calendar__tile--active) {
   @apply bg-blue-100 cursor-pointer;
 }
 
 .react-calendar__tile {
-  @apply h-10 aspect-square            /* 40 px høyde + kvadrat */
+  @apply h-10 aspect-square            
          flex items-center justify-center bg-white
          transition-colors duration-200;
 }
-
 
 .highlighted-mine {
   @apply bg-mine;
@@ -135,28 +125,7 @@ body {
   @apply bg-start;
 }
 
-
-
-
-
-@keyframes fade-in-out {
-  0%, 100% { opacity: 0; }
-  10%, 90% { opacity: 1; }
-}
-
-.animate-fade-in-out {
-  animation: fade-in-out 3s ease-in-out forwards;
-}
-
-
-
-
-
-
-
-
 /* header.css */
-/* src/styles/header.css */
 
 .header {
   @apply flex items-center justify-between p-4 shadow-md sticky top-0 bg-white z-50;
@@ -238,12 +207,7 @@ body {
   @apply bg-yellowMain px-4 py-2 rounded-full w-full;
 }
 
-
-
-
-
-
-/* src/styles/footer.css */
+/*Footer.jsx*/
 .footer-container {
   @apply flex flex-col bg-greySecond px-4 py-6;
 }
@@ -276,40 +240,37 @@ body {
   @apply font-semibold mb-1;
 }
 
-
 .footer-bottom {
   @apply bg-yellowMain text-center text-[8px] py-1;
 }
 
-.social-links{
-  @apply  inline-flex items-center gap-1 max-w-max;
+.social-links {
+  @apply inline-flex items-center gap-1 max-w-max;
 }
 
 .footer-sections {
   @apply flex flex-col md:flex-row md:items-start md:justify-between gap-6;
 }
 
-/*detailsVennue*/
 
 
-/* DetailVenues.css*/
+/*DetailVenues.jsx*/
 
-.vennueContainer{
+.vennueContainer {
   @apply flex flex-col gap-8 max-w-5xl mx-auto mt-4 p-4 pb-24 justify-center;
 }
 
-.venue-owner-bar{
+.venue-owner-bar {
   @apply mt-4 bg-greySecond rounded-2xl flex shadow-md items-center gap-4 p-4 rounded;
 }
 
-.info-text{
+.info-text {
   @apply flex flex-col p-4;
 }
 
-.footer-book-bar{
+.footer-book-bar {
   @apply fixed bottom-0 left-0 w-full bg-white p-4 border-t border-gray-300;
 }
-
 
 /*Home.jsx*/
 
@@ -317,55 +278,47 @@ body {
   @apply bg-white max-w-5xl mx-auto p-6 -mt-20 relative z-10 rounded-t-3xl flex flex-col md:flex-row justify-between items-center gap-4;
 }
 
-
-.filter-arrow{
+.filter-arrow {
   @apply absolute z-10 top-1/2 transform -translate-y-1/2 bg-yellowMain border rounded-full p-2;
 }
 
-
-
-.logo-size{
-  @apply h-32 w-32
+.logo-size {
+  @apply h-32 w-32;
 }
-
-
-
 
 /*Login.jsx/Register.jsx*/
 
-.register-line{
+.register-line {
   @apply text-blue-600 hover:underline;
 }
 
-.logo-circle-dot{
+.logo-circle-dot {
   @apply h-8 w-8 bg-yellowMain border-2 border-blackMain rounded-full ml-2;
 }
 
-.logo-text{
+.logo-text {
   @apply text-4xl font-montserrat font-semibold mb-2 text-center;
 }
 
-.center-logo{
+.center-logo {
   @apply flex items-center justify-center;
 }
 
-.under-text{
+.under-text {
   @apply text-lg mb-4 text-center;
 }
 
-.auth-form{
+.auth-form {
   @apply w-full max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-md;
 }
 
-.auth-container{
+.auth-container {
   @apply flex justify-center items-center min-h-screen bg-greySecond;
 }
 
-
-.top-line-container{
+.top-line-container {
   @apply flex justify-between items-center mb-4;
 }
-
 
 /*VenueWithBookins.jsx*/
 
@@ -374,7 +327,6 @@ body {
     @apply border-b shadow-md rounded-xl pb-6 bg-white flex flex-col h-full overflow-hidden w-[18rem] mx-auto;
   }
 
-  /* fjernet 'group' fra @apply her */
   .venue-details {
     @apply block p-2 flex flex-col flex-grow;
   }
@@ -408,7 +360,7 @@ body {
   }
 
   .btn-delete {
-  @apply px-4 py-2 bg-red-500 text-base border-2 border-cancelBtnBorder rounded-xl m-1 max-w-[255px] w-full mx-auto block;
+    @apply px-4 py-2 bg-red-500 text-base border-2 border-cancelBtnBorder rounded-xl m-1 max-w-[255px] w-full mx-auto block;
   }
 
   .bookings-container {

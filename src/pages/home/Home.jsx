@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Slider from "react-slick";
+import Slider from "react-slick"; // Carousel slider component
 import { PiPawPrint, PiEggCrackLight } from "react-icons/pi";
 import { IoWifiOutline } from "react-icons/io5";
 import { LuCircleParking } from "react-icons/lu";
@@ -11,7 +11,7 @@ import holizaeMark from "../../assets/holizaeMark.png";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-// Custom arrows
+// Custom arrow buttons for slider navigation
 const CustomPrevArrow = ({ onClick }) => (
   <button
     onClick={onClick}
@@ -33,6 +33,7 @@ const CustomNextArrow = ({ onClick }) => (
 );
 
 const Home = () => {
+  // Array of filter options with ID, label, and icon
   const filterItems = [
     { id: "pets", label: "Pet-Friendly Stays", icon: <PiPawPrint /> },
     { id: "wifi", label: "Wi-Fi Ready", icon: <IoWifiOutline /> },
@@ -40,38 +41,45 @@ const Home = () => {
     { id: "parking", label: "Parking Available", icon: <LuCircleParking /> },
   ];
 
+  // State to track which filters are currently selected
   const [selectedFilters, setSelectedFilters] = useState([]);
 
+  // Toggle a filter on/off when clicked
   const toggleFilter = (filterId) => {
     setSelectedFilters((prev) =>
       prev.includes(filterId)
-        ? prev.filter((f) => f !== filterId)
-        : [...prev, filterId]
+        ? prev.filter((f) => f !== filterId) // Remove filter if already selected
+        : [...prev, filterId] // Add filter if not selected
     );
   };
 
+  // Remove a filter explicitly (e.g. from the chips below)
   const removeFilter = (filterId) =>
     setSelectedFilters((prev) => prev.filter((f) => f !== filterId));
 
+  // Settings for the slider component (react-slick)
   const settings = {
     dots: false,
     arrows: true,
     infinite: false,
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 2,
+    slidesToShow: 4, // Number of items visible on large screens
+    slidesToScroll: 2, // How many items to scroll on arrow click
     nextArrow: <CustomNextArrow />,
     prevArrow: <CustomPrevArrow />,
     responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 3 } },
-      { breakpoint: 768, settings: { slidesToShow: 2.5 } },
-      { breakpoint: 500, settings: { slidesToShow: 1.5 } },
+      { breakpoint: 1024, settings: { slidesToShow: 3 } }, // Medium screens
+      { breakpoint: 768, settings: { slidesToShow: 2.5 } }, // Small screens
+      { breakpoint: 500, settings: { slidesToShow: 1.5 } }, // Very small screens
     ],
   };
 
   return (
     <div>
+      {/* Main carousel banner */}
       <MainCarousel />
+
+      {/* Introduction banner with heading, description and logo */}
       <div className="introbanner">
         <div className="flex-1 pr-6">
           <h2 className="font-Montserrat text-3xl">
@@ -82,6 +90,7 @@ const Home = () => {
             just a tap away
           </p>
 
+          {/* Reasons to book with Holidaze, visible on medium and larger screens */}
           <div className="hidden md:block mt-4">
             <strong>
               <p className="mt-4">Why Book With Holidaze?</p>
@@ -107,6 +116,7 @@ const Home = () => {
           </div>
         </div>
 
+        {/* Logo image */}
         <img
           src={holizaeMark}
           alt="Holidaze logo"
@@ -116,6 +126,7 @@ const Home = () => {
         />
       </div>
 
+      {/* Section with filter buttons in a slider */}
       <div className="bg-greySecond">
         <div className="pt-10 px-6 max-w-6xl mx-auto relative">
           <div className="bg-white rounded-2xl">
@@ -123,7 +134,7 @@ const Home = () => {
               {filterItems.map((item) => (
                 <div key={item.id} className="px-2">
                   <button
-                    onClick={() => toggleFilter(item.id)}
+                    onClick={() => toggleFilter(item.id)} // Toggle filters on click
                     className="w-full font-medium py-4 px-6 flex flex-col items-center justify-center gap-y-2 transition"
                   >
                     <div className="text-2xl">{item.icon}</div>
@@ -143,7 +154,7 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Chip filters */}
+        {/* Display selected filters as removable chips */}
         {selectedFilters.length > 0 && (
           <div className="flex flex-wrap gap-3 px-6 mt-4 max-w-6xl mx-auto justify-center">
             {selectedFilters.map((id) => {
@@ -156,7 +167,7 @@ const Home = () => {
                   {item.icon}
                   {item.label}
                   <button
-                    onClick={() => removeFilter(id)}
+                    onClick={() => removeFilter(id)} // Remove filter chip on click
                     className="ml-1 text-lg leading-none hover:text-red-600"
                     aria-label={`Remove ${item.label}`}
                   >
@@ -168,7 +179,7 @@ const Home = () => {
           </div>
         )}
 
-        {/* Venue list */}
+        {/* Pass selected filters down to Venues component to filter venue list */}
         <Venues selectedFilters={selectedFilters} />
       </div>
     </div>
