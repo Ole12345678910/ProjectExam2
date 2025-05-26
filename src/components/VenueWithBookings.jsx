@@ -17,7 +17,7 @@ export function VenueWithBookings({ venue, onEdit, onDelete }) {
       />
 
       {/* Venue details med group */}
-      <div className="venue-details group">
+      <div>
         <h3 className="venue-name">{venue.name}</h3>
 
         <p className="venue-description">{venue.description}</p>
