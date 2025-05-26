@@ -6,6 +6,7 @@ import { registerUser } from '../../components/api';
 function Register() {
   const navigate = useNavigate();
 
+  // State to hold all form inputs together in one object
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,12 +19,14 @@ function Register() {
     venueManager: false,
   });
 
-  // Use an object for errors per field
+  // Object to hold validation errors for each input field
   const [errors, setErrors] = useState({});
-  // Separate state for backend or general error messages
+  // General error message for backend or unexpected errors
   const [generalError, setGeneralError] = useState('');
+  // Loading state for disabling submit button during registration
   const [loading, setLoading] = useState(false);
 
+  // Handle change for text inputs and textarea
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -32,6 +35,7 @@ function Register() {
     }));
   };
 
+  // Handle toggle of the venue manager checkbox
   const handleVenueManagerChange = () => {
     setFormData((prevData) => ({
       ...prevData,
@@ -39,6 +43,7 @@ function Register() {
     }));
   };
 
+  // Helper function to check if a string is a valid URL
   const isValidUrl = (url) => {
     try {
       new URL(url);
@@ -48,37 +53,46 @@ function Register() {
     }
   };
 
+  // Validate all fields, returning an object with error messages per field
   const validateForm = (data) => {
     const validationErrors = {};
 
+    // Name: only letters, numbers, underscores
     if (!/^[\w]+$/.test(data.name)) {
       validationErrors.name = 'Name can only contain letters, numbers, and underscores (_).';
     }
 
+    // Email must be a valid student email ending with stud.noroff.no
     if (!/^[^\s@]+@[^\s@]+\.stud\.noroff\.no$/.test(data.email)) {
       validationErrors.email = 'Email must be a valid @gmail address.';
     }
 
+    // Password minimum length 8
     if (data.password.length < 8) {
       validationErrors.password = 'Password must be at least 8 characters.';
     }
 
+    // Bio max length 160 characters
     if (data.bio && data.bio.length > 160) {
       validationErrors.bio = 'Bio must be less than 160 characters.';
     }
 
+    // Validate avatar URL if provided
     if (data.avatarUrl && !isValidUrl(data.avatarUrl)) {
       validationErrors.avatarUrl = 'Avatar URL must be a valid URL.';
     }
 
+    // Avatar alt text max length 120
     if (data.avatarUrl && data.avatarAlt.length > 120) {
       validationErrors.avatarAlt = 'Avatar alt text must be less than 120 characters.';
     }
 
+    // Validate banner URL if provided
     if (data.bannerUrl && !isValidUrl(data.bannerUrl)) {
       validationErrors.bannerUrl = 'Banner URL must be a valid URL.';
     }
 
+    // Banner alt text max length 120
     if (data.bannerUrl && data.bannerAlt.length > 120) {
       validationErrors.bannerAlt = 'Banner alt text must be less than 120 characters.';
     }
@@ -86,19 +100,23 @@ function Register() {
     return validationErrors;
   };
 
+  // Submit handler for the registration form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setGeneralError('');
-    setErrors({});
 
+    setLoading(true);          // Show loading state
+    setGeneralError('');       // Clear previous general errors
+    setErrors({});             // Clear previous validation errors
+
+    // Validate form inputs
     const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
+      setErrors(validationErrors); // Show validation errors to user
       setLoading(false);
-      return;
+      return;                      // Stop submission if errors
     }
 
+    // Prepare data to send to backend
     const registerData = {
       name: formData.name,
       email: formData.email,
@@ -114,8 +132,10 @@ function Register() {
     };
 
     try {
+      // Call API to register user
       await registerUser(registerData);
-      alert('Registration successful!');
+      alert('Registration successful!');   // Inform the user
+      // Reset form to initial empty state
       setFormData({
         name: '',
         email: '',
@@ -127,24 +147,24 @@ function Register() {
         bannerAlt: '',
         venueManager: false,
       });
-      navigate('/login');
+      navigate('/login');                   // Redirect to login page
     } catch (err) {
-      // Show backend or general error message
+      // If registration fails, show error message
       setGeneralError(err.message || 'Registration failed');
     } finally {
-      setLoading(false);
+      setLoading(false);                   // Reset loading state
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="auth-container">
       <div className="auth-form my-6">
-        {/* Header */}
+        {/* Header with close icon and navigation links */}
         <div className="top-line-container">
           <IoMdCloseCircleOutline
             size={24}
             className="cursor-pointer"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate(-1)} // Go back to previous page on close
           />
 
           <div>
@@ -157,7 +177,7 @@ function Register() {
           </div>
         </div>
 
-        {/* Logo */}
+        {/* App logo and slogan */}
         <div className="logo-text">
           <div className="center-logo">
             SnapBook
@@ -167,10 +187,10 @@ function Register() {
 
         <p className="under-text">Create your account and start booking.</p>
 
-        {/* General error from backend or submit */}
+        {/* Show any general errors from backend or submission */}
         {generalError && <p className="text-red-500 mb-4 text-center">{generalError}</p>}
 
-        {/* Form inputs */}
+        {/* Form inputs dynamically generated from an array */}
         <div className="content-center space-y-4">
           {[
             { label: 'Name', name: 'name', type: 'text', required: true },
@@ -192,6 +212,7 @@ function Register() {
                     onChange={handleChange}
                     className="input-styling mt-1 mx-auto"
                   />
+                  {/* Show field-specific validation error */}
                   {errors[name] && (
                     <p className="text-red-600 text-sm mt-1">{errors[name]}</p>
                   )}
@@ -207,6 +228,7 @@ function Register() {
                     className="input-styling mt-1 mx-auto"
                     placeholder={`Enter your ${label.toLowerCase()}`}
                   />
+                  {/* Show field-specific validation error */}
                   {errors[name] && (
                     <p className="text-red-600 text-sm mt-1">{errors[name]}</p>
                   )}
@@ -215,7 +237,7 @@ function Register() {
             </label>
           ))}
 
-          {/* Venue Manager Checkbox */}
+          {/* Checkbox for Venue Manager */}
           <label className="label-container flex-row justify-start gap-2">
             <input
               type="checkbox"
@@ -227,7 +249,7 @@ function Register() {
           </label>
         </div>
 
-        {/* Submit Button */}
+        {/* Submit button disables while loading */}
         <button
           type="submit"
           className="standard-button w-full mt-6"

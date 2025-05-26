@@ -1,10 +1,13 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
-import { rangesOverlap, normalizeDate, daysBetween } from "../../utils/dateUtils";
+import {
+  rangesOverlap,
+  normalizeDate,
+  daysBetween,
+} from "../../utils/dateUtils";
 
 import { useDefaultDateRange } from "../../hooks/useDefaultDateRange";
-
 
 import Calendar from "react-calendar";
 import { FaStar } from "react-icons/fa";
@@ -15,23 +18,34 @@ import { useUser } from "../../hooks/useUser";
 import { useBookedDates } from "../../hooks/useBookedDates";
 
 function DetailVenues() {
+  // Get the venue ID from the URL params (react-router)
   const { id } = useParams();
-  // 1. Legg til state for venue og error
+
+  // Custom hook to fetch venue data, error state, and function to reload venue
   const { venue, error, loadVenue } = useVenue(id);
 
+  // State to control if dates should auto-select or not
   const [autoSelectDates, setAutoSelectDates] = useState(true);
 
+  // Define date boundaries: min date is 5 years ago, max date 10 years in future
   const today = new Date();
   const currentYear = today.getFullYear();
   const minDate = new Date(currentYear - 5, 0, 1);
   const maxDate = new Date(currentYear + 10, 11, 31);
+
+  // State for showing validation error messages about date selection
   const [errorMsg, setErrorMsg] = useState("");
 
+  // Get current logged in user info
   const user = useUser();
 
-  const { myBookings, otherBookings, allMyBookingDates } =
-    useBookedDates(venue, user);
+  // Custom hook returning booked dates by user and others for the venue
+  const { myBookings, otherBookings, allMyBookingDates } = useBookedDates(
+    venue,
+    user
+  );
 
+  // Custom hook to manage booking state and handlers
   const {
     selectedDates,
     setSelectedDates,
@@ -47,12 +61,14 @@ function DetailVenues() {
     venueId: id,
     myBookings,
     otherBookings,
-    onBookingsChange: loadVenue, 
+    onBookingsChange: loadVenue, // refresh venue bookings after changes
   });
 
+  // Function to check if selected date range conflicts with other bookings
   const validateDateRange = (range) => {
     const [start, end] = range;
 
+    // Check if the new range overlaps with bookings from other users
     const overlapsOthers = otherBookings.some((date) =>
       rangesOverlap(start, end, date, date)
     );
@@ -62,6 +78,7 @@ function DetailVenues() {
       return false;
     }
 
+    // Check if new range overlaps with current user's other bookings (excluding currently edited)
     const overlapsMine = myBookings.some(({ booking }) => {
       if (editingBooking && booking.id === editingBooking.id) return false;
       return rangesOverlap(
@@ -73,28 +90,36 @@ function DetailVenues() {
     });
 
     if (overlapsMine) {
-      setErrorMsg("Dette overlapper med en av dine egne bookinger.");
+      setErrorMsg("Dette overlapper med en av dine egne bookinger."); // Norwegian: overlaps your own booking
       return false;
     }
 
-    setErrorMsg(""); // ingen feil
+    // Clear error if no conflicts
+    setErrorMsg("");
     return true;
   };
 
+  // Handler when user clicks a day on the calendar
   const handleDayClick = (date) => {
+    // Disable auto date selection when user manually picks a date
     setAutoSelectDates(false);
 
+    // Normalize date to consistent format (e.g., remove time)
     const normDate = normalizeDate(date);
 
+    // If no dates or 2 dates selected, start new selection with clicked date
     if (selectedDates.length === 0 || selectedDates.length === 2) {
       setSelectedDates([normDate]);
       return;
     }
 
+    // Otherwise, user is selecting the second date to create a range
     const start = normalizeDate(selectedDates[0]);
+    // Determine correct order for start and end dates
     const end = normDate < start ? start : normDate;
     const range = [start < end ? start : end, start < end ? end : start];
 
+    // Validate the selected range; set it if valid, else clear selection
     if (validateDateRange(range)) {
       setSelectedDates(range);
     } else {
@@ -102,11 +127,13 @@ function DetailVenues() {
     }
   };
 
+  // On component mount, reset selected dates and enable autoSelectDates
   useEffect(() => {
     setSelectedDates([]);
     setAutoSelectDates(true);
   }, []);
 
+  // Custom hook to auto select default date range when applicable
   useDefaultDateRange({
     venue,
     otherBookings,
@@ -115,44 +142,60 @@ function DetailVenues() {
     setSelectedDates,
   });
 
+  // Function to add CSS class names to calendar tiles based on booking status
   const tileClassName = ({ date }) => {
     const normalizedDate = normalizeDate(date);
+    
+    // Check if date is part of user's own bookings
     const isMine = allMyBookingDates.some(
       (d) => normalizeDate(d).getTime() === normalizedDate.getTime()
     );
+    
+    // Check if date is booked by others
     const isOther = otherBookings.some(
       (d) => normalizeDate(d).getTime() === normalizedDate.getTime()
     );
 
+    // Check if date is inside the user-selected range
     const [start, end] = selectedDates;
     const isInRange = start && end && date >= start && date <= end;
+    
+    // Check if date is the starting date of the selection
     const isStart =
       start && !end && date.toDateString() === start.toDateString();
 
+    // Return appropriate class name for styling background colors
     if (isStart) return "highlighted-start";
     if (isInRange) return "highlighted-selected";
     if (isMine) return "highlighted-mine";
     if (isOther) return "highlighted-booked";
 
+    // No special class for unbooked/unselected dates
     return "";
   };
 
+  // Disable days on the calendar that are booked by others (or outside editable booking range)
   const tileDisabled = ({ date }) => {
     if (editingBooking) {
+      // Allow editing dates inside the booking currently being edited
       const start = normalizeDate(new Date(editingBooking.dateFrom));
       const end = normalizeDate(new Date(editingBooking.dateTo));
       const normalizedDate = normalizeDate(date);
       if (normalizedDate >= start && normalizedDate <= end) return false;
     }
 
+    // Disable dates booked by others
     const normalizedDate = normalizeDate(date);
     return otherBookings.some(
       (d) => normalizeDate(d).getTime() === normalizedDate.getTime()
     );
   };
+
+  // Render loading or error states if necessary
   if (error) return <p>{error}</p>;
   if (!venue) return <p>Loading...</p>;
 
+  // Normalize selected start and end dates for calculations
   const normalizedStart = selectedDates[0]
     ? normalizeDate(selectedDates[0])
     : null;
@@ -160,6 +203,7 @@ function DetailVenues() {
     ? normalizeDate(selectedDates[1])
     : null;
 
+  // Calculate total number of days selected
   const totalDays =
     normalizedStart && normalizedEnd
       ? daysBetween(normalizedStart, normalizedEnd)
@@ -167,7 +211,12 @@ function DetailVenues() {
       ? 1
       : 0;
 
+  // Calculate total price based on days selected and venue price
   const totalPrice = totalDays * venue.price;
+
+  // (rest of the component continues...)
+
+
 
   return (
     <>
@@ -203,7 +252,6 @@ function DetailVenues() {
         )}
 
         <div className="flex mt-6">
-
           <div className="w-1/2">
             <h1 className="text-2xl font-bold break-words">{venue.name}</h1>
             <p className="text-gray-700 mb-2 break-words">
@@ -230,30 +278,29 @@ function DetailVenues() {
             <p>Price: ${venue.price}</p>
           </div>
 
-
           <div className="w-1/2 flex justify-end items-start">
             <img src={holizaeMark} className="logo-size" alt="Holidaze logo" />
           </div>
         </div>
 
-      {venue.owner && (
-        <div className="venue-owner-bar">
-          {venue.owner.avatar?.url && (
-            <img
-              src={venue.owner.avatar.url}
-              alt={venue.owner.avatar.alt || "Owner avatar"}
-              width="100"
-              className="w-16 h-16 rounded-full object-cover"
-            />
-          )}
-          <div>
-            <strong>
-              <p>{venue.owner.name}</p>
-            </strong>
-            <p className="break-all" >{venue.owner.email}</p>
+        {venue.owner && (
+          <div className="venue-owner-bar">
+            {venue.owner.avatar?.url && (
+              <img
+                src={venue.owner.avatar.url}
+                alt={venue.owner.avatar.alt || "Owner avatar"}
+                width="100"
+                className="w-16 h-16 rounded-full object-cover"
+              />
+            )}
+            <div>
+              <strong>
+                <p>{venue.owner.name}</p>
+              </strong>
+              <p className="break-all">{venue.owner.email}</p>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
         <div className="info-text">
           <strong>
@@ -369,7 +416,6 @@ function DetailVenues() {
             </ul>
           )}
 
-
           {/*Clear choice */}
           <button
             onClick={resetForm}
@@ -380,7 +426,7 @@ function DetailVenues() {
         </div>
       </div>
       {/* Sticky booking bar */}
-      
+
       {selectedDates.length === 2 && (
         <div className="footer-book-bar">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -409,7 +455,6 @@ function DetailVenues() {
               </button>
             </div>
           </div>
-
         </div>
       )}
     </>

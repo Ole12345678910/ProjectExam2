@@ -2,14 +2,18 @@ import MiniCarousel from "./MiniCarousel";
 import { FaStar } from "react-icons/fa";
 
 export function VenueWithBookings({ venue, onEdit, onDelete }) {
+  // Defensive default values
+  const media = venue.media || [];
+  const bookings = venue.bookings || [];
+
   return (
     <li key={venue.id} className="venue-card">
       {/* Venue media carousel */}
       <MiniCarousel
-        media={venue.media}
+        media={media}
         venueName={venue.name}
         venueId={venue.id}
-        showIndicators={venue.media.length > 1}
+        showIndicators={media.length > 1}
       />
 
       {/* Venue details med group */}
@@ -49,11 +53,11 @@ export function VenueWithBookings({ venue, onEdit, onDelete }) {
       )}
 
       {/* Bookings list */}
-      {venue.bookings?.length ? (
+      {bookings.length > 0 ? (
         <div className="bookings-container">
           <h4 className="bookings-title">Bookings</h4>
           <ul className="booking-list">
-            {venue.bookings.map((booking) => (
+            {bookings.map((booking) => (
               <li key={booking.id} className="booking-item">
                 <div className="flex items-center gap-3 mb-1">
                   {booking.customer && booking.customer.avatar ? (
