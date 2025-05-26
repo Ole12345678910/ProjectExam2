@@ -1,4 +1,4 @@
-# 🏖️ ProjectExam2 – Holidaze
+# ProjectExam2 – Holidaze
 
 A venue booking web app built with **React**, styled using **Tailwind CSS**, and powered by **Supabase** authentication.
 
@@ -77,7 +77,7 @@ ProjectExam2/
 ```bash
 git clone https://github.com/Ole12345678910/ProjectExam2.git
 cd ProjectExam2
-```
+````
 
 ### 2. Install Dependencies
 
@@ -85,13 +85,30 @@ cd ProjectExam2
 npm install
 ```
 
-### 3. Start the Development Server
+### 3. Create Your `.env` File
+
+Create a `.env` file in the root directory and add your environment variables. For example:
+
+```env
+VITE_API_KEY=your_api_key_here
+```
+
+You can start by copying the example file if available:
+
+```bash
+cp .env.example .env
+```
+
+Then edit `.env` to add your actual keys.
+
+
+### 4. Start the Development Server
 
 ```bash
 npm run dev
 ```
 
-### 4. Open in Your Browser
+### 5. Open in Your Browser
 
 Go to [http://localhost:5173](http://localhost:5173) or the address shown in your terminal.
 
@@ -138,5 +155,3 @@ Go to [http://localhost:5173](http://localhost:5173) or the address shown in you
 
 * `@types/react`, `@types/react-dom` – TS type hints
 * `eslint-plugin-react-hooks`, `eslint-plugin-react-refresh` – Best practice rules
-
----
