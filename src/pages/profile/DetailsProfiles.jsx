@@ -140,7 +140,7 @@ export default function DetailProfile() {
       {/* Profile details */}
       <div className="pt-20 flex flex-col items-center mb-6">
         <h3 className="text-xl mt-2">{profile.name}</h3>
-        <p className="text-gray-600 mb-2">{profile.email}</p>
+        <p className="text-greyStandard mb-2">{profile.email}</p>
 
         {/* Show Venue Manager status if applicable */}
         {profile.venueManager && (

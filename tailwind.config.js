@@ -20,6 +20,8 @@ export default {
 
         cancelBtnBorder: "#262626",
         cancelBtnColor: "#D9D9D9",
+
+        greyStandard: "#727272",
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],

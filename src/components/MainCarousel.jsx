@@ -14,13 +14,13 @@ const VenueSlide = ({ venue }) => {
     <Link
       to={`/venues/${venue.id}`} // Link to venue details page
       aria-label={`View details for ${venue.name}`} // Accessibility label
-      className="block relative cursor-pointer max-h-[400px] w-full overflow-hidden bg-gray-200"
+      className="img-container"
     >
       {venue.media.length > 0 && (
         <>
           {/* Show a placeholder loading animation until image is loaded */}
           {!loaded && (
-            <div className="absolute inset-0 bg-gray-300 animate-pulse"></div>
+            <div className="absolute inset-0 bg-greyStandard animate-pulse"></div>
           )}
           {/* Venue image */}
           <img
@@ -30,7 +30,7 @@ const VenueSlide = ({ venue }) => {
             onLoad={() => setLoaded(true)} // Set loaded to true when image finishes loading
           />
           {/* Gradient overlay for visual effect */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 pointer-events-none"></div>
+          <div className="dark-overlay"></div>
         </>
       )}
     </Link>

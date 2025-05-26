@@ -87,3 +87,48 @@ npm run dev
 * npm comes bundled with Node.js.
 
 ```
+---
+
+## 📦 Tech Stack & Libraries Used
+
+This project is built using **React** with a modern toolchain and several helpful libraries:
+
+### ⚛️ Core
+
+* **React** – Frontend library for building user interfaces
+* **React DOM** – For rendering React in the browser
+* **React Router DOM** – Client-side routing and navigation
+
+### 🧱 UI & Styling
+
+* **Tailwind CSS** – Utility-first CSS framework for styling
+* **tailwind-scrollbar-hide** – Tailwind plugin to easily hide scrollbars
+* **PostCSS + Autoprefixer** – CSS processing used by Tailwind
+
+### 🖼️ Icons & Components
+
+* **React Icons** – Access to icon libraries (e.g., FontAwesome, Material Icons)
+* **React Calendar** – A customizable calendar component
+* **React Responsive Carousel** – Simple responsive image slider
+* **React Slick** & **Slick Carousel** – Another carousel/slider solution
+* **Keen Slider** – Lightweight and flexible slider library
+
+  > 💡 Note: This project includes multiple carousel libraries. You might want to use just one based on your final design.
+
+### 🔐 Authentication
+
+* **@supabase/auth-helpers-react** – Supabase integration for user login/session management
+
+### ⚙️ Development Tools
+
+* **Vite** – Fast build tool and dev server
+* **@vitejs/plugin-react** – Adds React-specific support to Vite
+* **ESLint** – Linting tool to ensure consistent code style
+* **eslint-plugin-react-hooks** – Helps enforce best practices for React Hooks
+* **dotenv** – Loads environment variables from `.env` files
+
+### 🧠 Type & Lint Support
+
+* **@types/react**, **@types/react-dom** – TypeScript support for better editor autocomplete and safety
+* **@eslint/js**, **eslint-plugin-react-refresh** – Extra ESLint config and features
+

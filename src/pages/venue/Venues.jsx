@@ -108,7 +108,7 @@ export default function Venues({
                   {venue.name}
                 </h3>
 
-                <p className="text-gray-600 mt-1 break-words line-clamp-3">
+                <p className="text-greyStandard mt-1 break-words line-clamp-3">
                   {venue.description}
                 </p>
 
@@ -123,13 +123,13 @@ export default function Venues({
                       }`}
                     />
                   ))}
-                  <span className="ml-1 text-sm text-gray-500">
+                  <span className="ml-1 text-sm text-greyStandard">
                     ({venue.rating})
                   </span>
                 </div>
 
                 <p className="mt-2 text-lg font-bold">Price: ${venue.price}</p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-greyStandard">
                   Max Guests: {venue.maxGuests}
                 </p>
               </Link>

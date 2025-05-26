@@ -135,7 +135,7 @@ const Home = () => {
                 <div key={item.id} className="px-2">
                   <button
                     onClick={() => toggleFilter(item.id)} // Toggle filters on click
-                    className="w-full font-medium py-4 px-6 flex flex-col items-center justify-center gap-y-2 transition"
+                    className="filter-buttons"
                   >
                     <div className="text-2xl">{item.icon}</div>
                     <span
