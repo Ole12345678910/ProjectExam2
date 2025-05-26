@@ -11,6 +11,7 @@ A venue booking web app built with **React**, styled using **Tailwind CSS**, and
 ```
 ProjectExam2/
 ├── public/
+│   ├── favicon.ico
 │   └── _redirects
 ├── src/
 │   ├── assets/
@@ -155,3 +156,15 @@ Go to [http://localhost:5173](http://localhost:5173) or the address shown in you
 
 * `@types/react`, `@types/react-dom` – TS type hints
 * `eslint-plugin-react-hooks`, `eslint-plugin-react-refresh` – Best practice rules
+
+## 🔗 Useful Links
+
+* [React Official Docs](https://reactjs.org/docs/getting-started.html) – Learn React basics and advanced concepts
+* [Tailwind CSS Docs](https://tailwindcss.com/docs) – Utility-first CSS framework documentation
+* [Vite Official Site](https://vitejs.dev/) – Fast build tool and dev server
+* [Environment Variables in Vite](https://vitejs.dev/guide/env-and-mode.html) – How to use `.env` files in Vite projects
+* [React Router DOM Docs](https://reactrouter.com/en/main) – Routing library for React
+* [ESLint](https://eslint.org/docs/latest/) – JavaScript and React linting tool
+* [React Icons](https://react-icons.github.io/react-icons/) – Icon packs for React
+
+---
