@@ -32,19 +32,34 @@ function Header() {
 
   // Load user info from localStorage when component mounts or location changes
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-    if (token && user.name) {
-      setIsLoggedIn(true);
-      setUserName(user.name);
-      setIsVenueManager(Boolean(user.venueManager));
-      setUserAvatar(user.avatar?.url);
-    } else {
-      setIsLoggedIn(false);
-      setUserName("");
-      setIsVenueManager(false);
-      setUserAvatar(null);
-    }
+    const loadUser = () => {
+      const token = localStorage.getItem("token");
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      if (token && user.name) {
+        setIsLoggedIn(true);
+        setUserName(user.name);
+        setIsVenueManager(Boolean(user.venueManager));
+        setUserAvatar(user.avatar?.url);
+      } else {
+        setIsLoggedIn(false);
+        setUserName("");
+        setIsVenueManager(false);
+        setUserAvatar(null);
+      }
+    };
+
+    loadUser(); // initial load
+
+    const handleUserUpdated = () => {
+      loadUser(); // reload when custom event is triggered
+    };
+
+    window.addEventListener("userUpdated", handleUserUpdated);
+
+    // Cleanup listener
+    return () => {
+      window.removeEventListener("userUpdated", handleUserUpdated);
+    };
   }, [location]);
 
   // Logout function: clears localStorage and redirects to login
@@ -253,4 +268,3 @@ function Header() {
 }
 
 export default Header;
-
