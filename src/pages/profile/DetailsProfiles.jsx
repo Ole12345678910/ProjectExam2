@@ -87,7 +87,13 @@ export default function DetailProfile() {
       // Also update local user data in localStorage if needed
       const userData = JSON.parse(localStorage.getItem("user") || "{}");
       userData.venueManager = venueManager;
+      userData.avatar = { url: avatarUrl, alt: "Profile Avatar" };
+      userData.banner = { url: bannerUrl, alt: "Profile Banner" };
+      userData.bio = bio;
       localStorage.setItem("user", JSON.stringify(userData));
+      window.dispatchEvent(new Event("userUpdated")); // Legg til denne linjen
+
+
 
       // Update profile state with the new data
       setProfile((prev) => ({
